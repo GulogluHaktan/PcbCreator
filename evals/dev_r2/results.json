@@ -1,0 +1,36 @@
+{
+  "meta": {
+    "name": "devset",
+    "commit": "b3db7b1",
+    "model": "Ternary Bonsai 27B (PQ2_0)",
+    "runs": 1
+  },
+  "runs": [
+    {
+      "id": "d0_led",
+      "run": 1,
+      "status": "ok",
+      "error": null,
+      "seconds": 218,
+      "modules": 1,
+      "human_verdict": true,
+      "requirement_kinds": [
+        "1xconnector",
+        "1xled",
+        "1xsupport"
+      ],
+      "block_rejections": 0,
+      "module_attempts_failed": 0,
+      "handed_over": false,
+      "rules": {
+        "E073": 2
+      },
+      "drawing": {
+        "style": "wires (layout variant 0)",
+        "connectivity_ok": true,
+        "png": "evals/dev_r2/d0_led/run1/schematic/d0_led.png"
+      },
+      "human_note": "R1 on the connector's VIN, series 620 ohm (5.0 mA), LED cathode to GND, connector has GND"
+    }
+  ]
+}

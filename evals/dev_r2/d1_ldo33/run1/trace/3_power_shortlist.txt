@@ -1,0 +1,56 @@
+Regulator_Linear:APE8865U5-31-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 3.1V, SC-70-5 300mA LDO Regulator Fixed Positive
+Regulator_Linear:SPX2920M3-3.3_SOT223 | 400mA Low drop-out regulator, Fixed Output 3.3V, SOT-223 REGULATOR LDO 3.3V
+Regulator_Linear:APE8865U5-33-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 3.3V, SC-70-5 300mA LDO Regulator Fixed Positive
+Regulator_Linear:LD3985M33R_SOT23 | 150mA Low Dropout Voltage Regulator, Fixed Output 3.3V, SOT-23-5 150mA LDO Regulator Fixed Positive
+Regulator_Linear:APE8865U4-31-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 3.1V, SC-70-4 300mA LDO Regulator Fixed Positive
+Regulator_Linear:LT1129-3.3_SOT223 | 700mA Micropower Low drop-out regulator, Fixed Output 3.3V, SOT-223 REGULATOR LDO fixed positive
+Regulator_Linear:APE8865U5-32-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 3.2V, SC-70-5 300mA LDO Regulator Fixed Positive
+Regulator_Linear:LD3985M30R_SOT23 | 150mA Low Dropout Voltage Regulator, Fixed Output 3.0V, SOT-23-5 150mA LDO Regulator Fixed Positive
+Regulator_Linear:APE8865U5-16-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 1.6V, SC-70-5 300mA LDO Regulator Fixed Positive
+Regulator_Linear:LM3480-3.3 | 100mA, Quasi Low Dropout Voltage Regulator, 3.3V positive fixed output, SOT-23 package ldo linear fi
+Regulator_Linear:LD1117V33 | 800 mA Fixed Low Drop Positive Voltage Regulator (ldo). Max input 15V. Fixed Output 3.3V. TO-220-3 l
+Regulator_Linear:APE8865Y5-23-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 2.3V, SOT-23-5 300mA LDO Regulator Fixed Positive
+Regulator_Linear:APE8865U4-33-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 3.3V, SC-70-4 300mA LDO Regulator Fixed Positive
+Regulator_Linear:APE8865Y5-33-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 3.3V, SOT-23-5 300mA LDO Regulator Fixed Positive
+Regulator_Linear:APE8865U5-30-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 3.0V, SC-70-5 300mA LDO Regulator Fixed Positive
+Regulator_Linear:LD3985M25R_SOT23 | 150mA Low Dropout Voltage Regulator, Fixed Output 2.5V, SOT-23-5 150mA LDO Regulator Fixed Positive
+Regulator_Linear:SPX3819M5-L-3-3 | 500mA Low drop-out regulator, Fixed Output 3.3V, SOT-23-5 REGULATOR LDO 3.3V
+Regulator_Linear:APE8865U4-12-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 1.2V, SC-70-4 300mA LDO Regulator Fixed Positive
+Regulator_Linear:APE8865NL-33-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 3.3V, SOT-23 300mA LDO Regulator Fixed Positive
+Regulator_Linear:APE8865U5-12-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 1.2V, SC-70-5 300mA LDO Regulator Fixed Positive
+Regulator_Linear:LD3985M122R_SOT23 | 150mA Low Dropout Voltage Regulator, Fixed Output 1.22V, SOT-23-5 150mA LDO Regulator Fixed Positive
+Regulator_Linear:APE8865U4-30-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 3.0V, SC-70-4 300mA LDO Regulator Fixed Positive
+Regulator_Linear:APE8865Y5-31-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 3.1V, SOT-23-5 300mA LDO Regulator Fixed Positive
+Regulator_Linear:LP38693DT-3.3 | 500-mA Low-Dropout CMOS Linear Regulators Stable With Ceramic Output Capacitors, 3.3V output voltage
+Regulator_Linear:APE8865NL-23-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 2.3V, SOT-23 300mA LDO Regulator Fixed Positive
+Regulator_Linear:APE8865U4-32-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 3.2V, SC-70-4 300mA LDO Regulator Fixed Positive
+Regulator_Linear:APE8865Y5-32-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 3.2V, SOT-23-5 300mA LDO Regulator Fixed Positive
+Regulator_Linear:APE8865U4-16-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 1.6V, SC-70-4 300mA LDO Regulator Fixed Positive
+Regulator_Linear:LD3985M26R_SOT23 | 150mA Low Dropout Voltage Regulator, Fixed Output 2.6V, SOT-23-5 150mA LDO Regulator Fixed Positive
+Regulator_Linear:APE8865U5-24-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 2.4V, SC-70-5 300mA LDO Regulator Fixed Positive
+Regulator_Linear:APE8865Y5-24-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 2.4V, SOT-23-5 300mA LDO Regulator Fixed Positive
+Regulator_Linear:SPX3819M5-L-3-0 | 500mA Low drop-out regulator, Fixed Output 3.0V, SOT-23-5 REGULATOR LDO 3.0V
+Regulator_Linear:APE8865NR-33-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 3.3V, SOT-23 300mA LDO Regulator Fixed Positive
+Regulator_Linear:APE8865U5-23-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 2.3V, SC-70-5 300mA LDO Regulator Fixed Positive
+Regulator_Linear:TLV70233_SOT23-5 | 300mA Low Dropout Voltage Regulator, Fixed Output 3.3V, SOT-23-5 300mA LDO Regulator Fixed Positive
+Regulator_Linear:APE8865U5-26-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 2.6V, SC-70-5 300mA LDO Regulator Fixed Positive
+Regulator_Linear:LD3985M27R_SOT23 | 150mA Low Dropout Voltage Regulator, Fixed Output 2.7V, SOT-23-5 150mA LDO Regulator Fixed Positive
+Regulator_Linear:APE8865U5-18-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 1.8V, SC-70-5 300mA LDO Regulator Fixed Positive
+Regulator_Linear:LD3985M29R_SOT23 | 150mA Low Dropout Voltage Regulator, Fixed Output 2.8V, SOT-23-5 150mA LDO Regulator Fixed Positive
+Regulator_Linear:APE8865Y5-16-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 1.6V, SOT-23-5 300mA LDO Regulator Fixed Positive
+Regulator_Linear:APE8865N-33-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 3.3V, SOT-23 300mA LDO Regulator Fixed Positive
+Regulator_Linear:APE8865U4-23-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 2.3V, SC-70-4 300mA LDO Regulator Fixed Positive
+Regulator_Linear:APE8865NL-31-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 3.1V, SOT-23 300mA LDO Regulator Fixed Positive
+Regulator_Linear:APE8865U4-18-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 1.8V, SC-70-4 300mA LDO Regulator Fixed Positive
+Regulator_Linear:APE8865N-23-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 2.3V, SOT-23 300mA LDO Regulator Fixed Positive
+Regulator_Linear:APE8865NR-31-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 3.1V, SOT-23 300mA LDO Regulator Fixed Positive
+Regulator_Linear:APE8865Y5-22-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 2.2V, SOT-23-5 300mA LDO Regulator Fixed Positive
+Regulator_Linear:APE8865Y5-21-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 2.1V, SOT-23-5 300mA LDO Regulator Fixed Positive
+Regulator_Linear:LP38693MP-3.3 | 500-mA Low-Dropout CMOS Linear Regulators Stable With Ceramic Output Capacitors, 3.3V output voltage
+Regulator_Linear:APE8865Y5-29-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 2.9V, SOT-23-5 300mA LDO Regulator Fixed Positive
+Regulator_Linear:APE8865NR-23-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 2.3V, SOT-23 300mA LDO Regulator Fixed Positive
+Regulator_Linear:SPX2920U-3.3_TO220 | 400mA Low drop-out regulator, Fixed Output 3.3V, TO-220 REGULATOR LDO 3.3V
+Regulator_Linear:APE8865Y5-30-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 3.0V, SOT-23-5 300mA LDO Regulator Fixed Positive
+Regulator_Linear:LT1117-3.3 | 800mA Low-Dropout Linear Regulator, 3.3V fixed output, SOT-223/TO-263 linear regulator ldo fixed pos
+Regulator_Linear:APE8865U5-17-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 1.7V, SC-70-5 300mA LDO Regulator Fixed Positive
+Regulator_Linear:APE8865NL-32-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 3.2V, SOT-23 300mA LDO Regulator Fixed Positive

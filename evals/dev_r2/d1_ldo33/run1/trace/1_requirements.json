@@ -1,0 +1,42 @@
+{
+  "reasoning": "",
+  "summary": "5 V to 3.3 V power board with input/output connectors, fixed 3.3 V LDO, and green power indicator LED with current-limiting resistor.",
+  "purpose": "Step down 5 V to 3.3 V with low dropout, provide regulated 3.3 V output, and indicate power status via LED.",
+  "supply": "5 V",
+  "interfaces": [
+    "2-pin connector, 5 V input",
+    "2-pin connector, 3.3 V output"
+  ],
+  "constraints": [
+    "Fixed 3.3 V output from regulator",
+    "Low-dropout linear regulator",
+    "Green LED on 3.3 V rail, current ~2 mA"
+  ],
+  "required": [
+    {
+      "kind": "connector",
+      "count": 1,
+      "detail": "2-pin, 5 V input"
+    },
+    {
+      "kind": "connector",
+      "count": 1,
+      "detail": "2-pin, 3.3 V output"
+    },
+    {
+      "kind": "linear_regulator",
+      "count": 1,
+      "detail": "Fixed 3.3 V, low-dropout"
+    },
+    {
+      "kind": "led",
+      "count": 1,
+      "detail": "Green, power indicator, on 3.3 V rail"
+    },
+    {
+      "kind": "support",
+      "count": 1,
+      "detail": "Current-limiting resistor for LED, ~2 mA"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+BLOCK: linear_regulator: Fixed 3.3 V, low-dropout. Include its input and output capacitors and tie any enable pin as the datasheet card says in this block.
+
+REASONING
+The SPX2920M3-3.3 is a 3-pin fixed 3.3V LDO. Pin 1 is VI (input), Pin 2 is GND, Pin 3 is VO (output). No enable pin exists, so nothing to tie. Per rules, each IC power pin needs a 100nF decoupling cap to GND. I add C1 from VIN to GND for the input pin, and C2 from V3.3 to GND for the output pin. All pins are assigned to contract nets.
+
+MODULE power: Step down 5 V to 3.3 V using a fixed low-dropout linear regulator, provide regulated 3.3 V output, and include a green power indicator LED with current-limiting resistor.
+
+PARTS
+  U1    Regulator_Linear:SPX2920M3-3.3_SOT223               400mA Low drop-out regulator, Fixed Output 3.3V, SOT-223 REGULATOR LDO 3.3V  [pins: VI, GND, VO]
+  C1    Device:C                                   100nF    Unpolarized capacitor cap capacitor
+  C2    Device:C                                   100nF    Unpolarized capacitor cap capacitor
+
+NETS (pin names in brackets)
+  VIN           5.0 V: U1.VI[VI], C1.1
+  V3.3          3.3 V: U1.VO[VO], C2.1
+  GND         : U1.GND[GND], C1.2, C2.2
+
+PORTS
+  VIN          power/power_in 5.0 V
+  V3.3         power/power_out 3.3 V
+  GND          ground/bidir
+
+LOCAL LINT
+clean

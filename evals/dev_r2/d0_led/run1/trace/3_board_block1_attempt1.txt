@@ -1,0 +1,22 @@
+BLOCK: led: red LED. Include its series current-limiting resistor in this block.
+
+REASONING
+Current path: VIN -> R1 -> LED anode -> LED cathode -> GND. R = (VIN - Vf) / I. Example numbers: VIN 5 V, Vf 2.1 V, I = 5 mA gives 580 ohm, rounded to the E24 value 620 ohm. Net names and values here are an EXAMPLE: use the contract nets of your module and recompute every value from your own rail voltage, part datasheet and target current.
+
+MODULE board: Provides a simple 5 V LED circuit powered via a 2-pin connector. Contains a red LED with a series current-limiting resistor for approximately 5 mA current draw.
+
+PARTS
+  R1    Device:R                                   620      Resistor R res resistor
+  D1    Device:LED                                 red      Light emitting diode LED diode
+
+NETS (pin names in brackets)
+  VIN           5.0 V: R1.1
+  GND           0.0 V: D1.K[K]
+  LED_A       : R1.2, D1.A[A]
+
+PORTS
+  VIN          power/power_in 5.0 V
+  GND          ground/bidir
+
+LOCAL LINT
+clean

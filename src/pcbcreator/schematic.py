@@ -88,9 +88,11 @@ def _pins_of(sym: list, name: str) -> dict[int, list[tuple[str, float, float, fl
     return out
 
 
-def _prop(key: str, value: str, x: float, y: float, hide: bool = False) -> str:
-    return (f'\t\t(property "{key}" "{value}"\n\t\t\t(at {_f(x)} {_f(y)} 0)\n\t\t\t(effects\n\t\t\t\t(font\n\t\t\t\t\t'
-            f'(size 1.27 1.27)\n\t\t\t\t)' + ("\n\t\t\t\t(hide yes)" if hide else "") + "\n\t\t\t)\n\t\t)")
+def _prop(key: str, value: str, x: float, y: float, hide: bool = False, justify: str | None = None,
+          angle: int = 0) -> str:
+    return (f'\t\t(property "{key}" "{value}"\n\t\t\t(at {_f(x)} {_f(y)} {angle})\n\t\t\t(effects\n\t\t\t\t(font\n\t\t\t\t\t'
+            f'(size 1.27 1.27)\n\t\t\t\t)' + (f"\n\t\t\t\t(justify {justify})" if justify else "")
+            + ("\n\t\t\t\t(hide yes)" if hide else "") + "\n\t\t\t)\n\t\t)")
 
 
 def build_schematic(module: Module, lib: Library, share: Path = KICAD_SHARE) -> str:
@@ -165,12 +167,15 @@ OUT_DIR = {0: (1, 0), 90: (0, -1), 180: (-1, 0), 270: (0, 1)}
 
 
 def _symbol_text(inst, part, sname: str, unit: int, unit_pins, cx: float, cy: float, height: float,
-                 root: str, project: str) -> str:
+                 root: str, project: str, top_y: float | None = None, side_text: bool = False) -> str:
     pin_blocks = "\n".join(f'\t\t(pin "{n}"\n\t\t\t(uuid "{uuid.uuid4()}")\n\t\t)' for n, *_ in unit_pins)
     return (f'\t(symbol\n\t\t(lib_id "{inst.part}")\n\t\t(at {_f(cx)} {_f(cy)} 0)\n\t\t(unit {unit})\n'
             f'\t\t(exclude_from_sim no)\n\t\t(in_bom yes)\n\t\t(on_board yes)\n\t\t(dnp no)\n\t\t(uuid "{uuid.uuid4()}")\n'
-            + _prop("Reference", inst.ref, cx + 3, cy - height / 2 + 2) + "\n"
-            + _prop("Value", inst.value or sname, cx + 3, cy - height / 2 + 5) + "\n"
+            + (_prop("Reference", inst.ref, cx + 3.2, cy - 1.4, justify="left") + "\n"
+               + _prop("Value", inst.value or sname, cx + 3.2, cy + 1.4, justify="left") + "\n"
+               if side_text else
+               _prop("Reference", inst.ref, cx, (top_y - 3.8) if top_y is not None else cy - height / 2 + 2) + "\n"
+               + _prop("Value", inst.value or sname, cx, top_y if top_y is not None else cy - height / 2 + 5) + "\n")
             + _prop("Footprint", part.footprint, cx, cy, True) + "\n"
             + _prop("Datasheet", part.datasheet or "~", cx, cy, True) + "\n" + pin_blocks
             + f'\n\t\t(instances\n\t\t\t(project "{project}"\n\t\t\t\t(path "/{root}"\n\t\t\t\t\t(reference "{inst.ref}")\n'
@@ -188,7 +193,8 @@ def _label(net: str, x: float, y: float, ang: int) -> str:
             f'\t\t\t)\n\t\t\t(justify {just})\n\t\t)\n\t\t(uuid "{uuid.uuid4()}")\n\t)')
 
 
-def build_wired(module: Module, lib: Library, share: Path = KICAD_SHARE, variant: int = 0) -> str:
+def build_wired(module: Module, lib: Library, share: Path = KICAD_SHARE, variant: int = 0,
+                power_symbols: bool = True) -> str:
     """Schematic with real wires: parts in columns along the signal flow, one vertical bar per net in the channels
     between columns, every pin wired to its bar. Net labels on the bars keep nets that span several channels
     connected (and make the nets readable). render() verifies the result against KiCad's own netlist."""
@@ -236,13 +242,18 @@ def build_wired(module: Module, lib: Library, share: Path = KICAD_SHARE, variant
         for n in nets_of(it):
             net_cols.setdefault(n, []).append(level[i])
     pin_info = []  # (item index, number, px, py, outward angle, net, channel)
+    power_pins = []  # (item index, px, py, outward angle, net, is_ground): drawn as KiCad power symbols, no wires
     channel_nets: dict[int, list[str]] = {}
+    voltages = {n.name: n.voltage for n in module.nets}
     for i, it in enumerate(items):
         for number, px, py, ang in it["pins"]:
             net = ctx.pin_net.get((it["inst"].ref, number))
             if net is None:
                 continue
             out = int((ang + 180) % 360)
+            if power_symbols and (is_ground_net(net) or voltages.get(net) is not None):
+                power_pins.append((i, px, py, out, net, is_ground_net(net)))
+                continue
             c = level[i]
             if out == 0:
                 chan = c
@@ -273,7 +284,7 @@ def build_wired(module: Module, lib: Library, share: Path = KICAD_SHARE, variant
 
     colw = [max((extent(items[i])[1] - extent(items[i])[0] + 2 * STUB for i in col_items[c]), default=10)
             for c in range(ncols)]
-    chan_w = {k: 8 + 2.54 * len(channel_nets.get(k, [])) for k in range(-1, ncols)}
+    chan_w = {k: 22 + 2.54 * len(channel_nets.get(k, [])) for k in range(-1, ncols)}
     xl, cursor = {}, 12 + chan_w[-1]
     for c in range(ncols):
         xl[c] = cursor
@@ -288,7 +299,7 @@ def build_wired(module: Module, lib: Library, share: Path = KICAD_SHARE, variant
             cx = round((xl[c] + STUB - x_min) / 2.54) * 2.54
             cy = round((y + STUB + y_max) / 2.54) * 2.54 + 2.54 * ((i * variant) % 4)
             pos[i] = (cx, cy, y_max - y_min + 2 * STUB)
-            y += y_max - y_min + 2 * STUB + 14
+            y += y_max - y_min + 2 * STUB + 18
         total_h = max(total_h, y)
     trunk_x: dict[tuple[int, str], float] = {}
     for k, nets in channel_nets.items():
@@ -297,14 +308,46 @@ def build_wired(module: Module, lib: Library, share: Path = KICAD_SHARE, variant
             trunk_x[(k, n)] = round((x0 + 4 + idx * 2.54) / 1.27) * 1.27
     paper, pw, ph = next(((n, w, h) for n, w, h in PAPERS if total_w + 12 <= w and total_h + 50 <= h), PAPERS[-1])
 
+    for sym_name in ({"GND"} if any(g for *_, g in power_pins) else set()) | \
+            ({"+3V3"} if any(not g for *_, g in power_pins) else set()):
+        sym = flat_symbol("power", sym_name, share)
+        sym[1] = QStr(f"power:{sym_name}")
+        used[f"power:{sym_name}"] = sym
     # --- emit ------------------------------------------------------------------------------------------------
     blocks: list[str] = []
     for i, it in enumerate(items):
         cx, cy, height = pos[i]
+        top_y = cy - extent(it)[3] - STUB - 3.5  # above the highest pin end and its stub
+        x_min, x_max, y_min, y_max = extent(it)
+        side = len(it["pins"]) == 2 and (y_max - y_min) > (x_max - x_min)  # vertical two-pin part: text to its side
         blocks.append(_symbol_text(it["inst"], it["part"], it["sname"], it["unit"], it["pins"], cx, cy, height, root,
-                                   module.name))
+                                   module.name, top_y, side))
     attach: dict[tuple[int, str], list[float]] = {}
     nc_flags = []
+    pwr_n = 0
+    for i, px, py, out, net, is_gnd in power_pins:
+        cx, cy, _ = pos[i]
+        x1, y1 = cx + px, cy - py
+        dx, dy = OUT_DIR[out]
+        sx, sy = x1 + dx * STUB, y1 + dy * STUB
+        blocks.append(_wire(x1, y1, sx, sy))
+        # ground symbols hang down by default, rail arrows point up: rotate so the body points away from the part
+        rot = ({270: 90, 0: 90}.get(out) if False else {(0, 1): 0, (1, 0): 90, (0, -1): 180, (-1, 0): 270}[(dx, dy)]) \
+            if is_gnd else {(0, -1): 0, (-1, 0): 90, (0, 1): 180, (1, 0): 270}[(dx, dy)]
+        pwr_n += 1
+        sym = "GND" if is_gnd else "+3V3"
+        tx, ty = (sx + dx * 3.2, sy - 1.9) if dx else (sx + 2.2, sy + dy * 2.4)  # beside the symbol, never over parts
+        just = ("left" if dx > 0 else "right") if dx else "left"
+        tang = (360 - rot) % 360  # keep the text horizontal although the symbol is rotated
+        blocks.append(
+            f'\t(symbol\n\t\t(lib_id "power:{sym}")\n\t\t(at {_f(sx)} {_f(sy)} {rot})\n\t\t(unit 1)\n'
+            f'\t\t(exclude_from_sim no)\n\t\t(in_bom no)\n\t\t(on_board no)\n\t\t(dnp no)\n\t\t(uuid "{uuid.uuid4()}")\n'
+            + _prop("Reference", f"#PWR0{pwr_n:03d}", sx, sy, True) + "\n"
+            + _prop("Value", net, tx, ty, justify=just, angle=tang) + "\n"
+            + _prop("Footprint", "", sx, sy, True) + "\n" + _prop("Datasheet", "", sx, sy, True)
+            + f'\n\t\t(pin "1"\n\t\t\t(uuid "{uuid.uuid4()}")\n\t\t)'
+            + f'\n\t\t(instances\n\t\t\t(project "{module.name}"\n\t\t\t\t(path "/{root}"\n\t\t\t\t\t(reference "#PWR0{pwr_n:03d}")\n'
+              f'\t\t\t\t\t(unit 1)\n\t\t\t\t)\n\t\t\t)\n\t\t)\n\t)')
     for i, number, px, py, out, net, chan in pin_info:
         cx, cy, _ = pos[i]
         x1, y1 = cx + px, cy - py
@@ -393,14 +436,17 @@ def render(module: Module, lib: Library, out_dir: str | Path, stem: str | None =
     stem = stem or module.name
     sch = out / f"{stem}.kicad_sch"
     style = "labels"
-    for variant in range(16):  # first drawing whose wiring KiCad reads back as exactly our nets wins
-        try:
-            sch.write_text(build_wired(module, lib, variant=variant))
-            if not connectivity_diff(module, lib, sch):
-                style = f"wires (layout variant {variant})"
-                break
-        except Exception:  # noqa: BLE001
-            continue
+    for power_symbols in (True, False):  # cleanest first: power symbols for rails and GND, wires only for signals
+        for variant in range(8):  # first drawing whose wiring KiCad reads back as exactly our nets wins
+            try:
+                sch.write_text(build_wired(module, lib, variant=variant, power_symbols=power_symbols))
+                if not connectivity_diff(module, lib, sch):
+                    style = f"{'power symbols + ' if power_symbols else ''}wires (layout variant {variant})"
+                    break
+            except Exception:  # noqa: BLE001
+                continue
+        if style != "labels":
+            break
     if style == "labels":  # nothing verified: the label style is always electrically correct
         sch.write_text(build_schematic(module, lib))
     # KiCad's project manager opens projects, not bare schematics: write a minimal project file next to it

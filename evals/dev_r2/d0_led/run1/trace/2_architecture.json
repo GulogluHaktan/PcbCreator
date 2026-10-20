@@ -1,0 +1,48 @@
+{
+  "reasoning": "",
+  "modules": [
+    {
+      "name": "board",
+      "purpose": "Provides a simple 5 V LED circuit powered via a 2-pin connector. Contains a red LED with a series current-limiting resistor for approximately 5 mA current draw.",
+      "ports": [
+        {
+          "net": "VIN",
+          "direction": "power_in",
+          "kind": "power",
+          "voltage": 5.0,
+          "protocol": null,
+          "optional": false
+        },
+        {
+          "net": "GND",
+          "direction": "bidir",
+          "kind": "ground",
+          "voltage": null,
+          "protocol": null,
+          "optional": false
+        }
+      ],
+      "required": [
+        {
+          "kind": "connector",
+          "count": 1,
+          "detail": "2-pin connector"
+        },
+        {
+          "kind": "led",
+          "count": 1,
+          "detail": "red LED"
+        },
+        {
+          "kind": "support",
+          "count": 1,
+          "detail": "current-limiting resistor for red LED"
+        }
+      ]
+    }
+  ],
+  "links": [],
+  "expose": [
+    "board.VIN"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "reasoning": "",
+  "queries": [
+    {
+      "query": "Fixed 3.3 V low-dropout linear regulator, SOT-23 package",
+      "why": "The module requires a fixed 3.3 V output from a 5 V input using a low-dropout linear regulator. A fixed regulator simplifies design and ensures stable output. SOT-23 is a common, space-efficient package for such ICs."
+    }
+  ],
+  "unavailable": []
+}

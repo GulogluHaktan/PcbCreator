@@ -1,0 +1,14 @@
+Device:R [passive] Resistor R res resistor | footprint Resistor_SMD:R_0805_2012Metric | pins: 1:(passive), 2:(passive)
+Device:C [passive] Unpolarized capacitor cap capacitor | footprint Capacitor_SMD:C_0805_2012Metric | pins: 1:(passive), 2:(passive)
+Device:LED [passive] Light emitting diode LED diode | footprint LED_SMD:LED_0805_2012Metric | pins: 1:K(passive), 2:A(passive)
+Connector_Generic:Conn_01x02 [connector] Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/) connector | footprint Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical | pins: 1:Pin_1(passive), 2:Pin_2(passive)
+Connector_Generic:Conn_01x03 [connector] Generic connector, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/) connector | footprint Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical | pins: 1:Pin_1(passive), 2:Pin_2(passive), 3:Pin_3(passive)
+Connector_Generic:Conn_01x04 [connector] Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/) connector | footprint Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical | pins: 1:Pin_1(passive), 2:Pin_2(passive), 3:Pin_3(passive), 4:Pin_4(passive)
+Regulator_Linear:SPX2920M3-3.3_SOT223 [ic] 400mA Low drop-out regulator, Fixed Output 3.3V, SOT-223 REGULATOR LDO 3.3V | footprint Package_TO_SOT_SMD:SOT-223-3_TabPin2 | pins: 1:VI(power_in), 2:GND(ground), 3:VO(power_out)
+Regulator_Linear:APE8865U5-33-HF-3 [ic] 300mA Low Dropout Voltage Regulator, Fixed Output 3.3V, SC-70-5 300mA LDO Regulator Fixed Positive | footprint Package_TO_SOT_SMD:SOT-353_SC-70-5 | pins: 1:VIN(power_in), 2:GND(ground), 3:~{SHDN}(input), 4:BYP(input), 5:VOUT(power_out)
+Regulator_Linear:LD3985M33R_SOT23 [ic] 150mA Low Dropout Voltage Regulator, Fixed Output 3.3V, SOT-23-5 150mA LDO Regulator Fixed Positive | footprint Package_TO_SOT_SMD:SOT-23-5 | pins: 1:VIN(power_in), 2:GND(ground), 3:INH(input), 4:BYP(input), 5:VOUT(power_out)
+
+CARDS
+Regulator_Linear:SPX2920M3-3.3_SOT223: no datasheet card (datasheet unreachable); rely on the pin list and be conservative
+Regulator_Linear:APE8865U5-33-HF-3: Regulator_Linear | Cout >= 1.0 uF | pins: 1:VIN; 2:GND; 3:~{SHDN}; 4:BYP; 5:VOUT  [unconfirmed]
+Regulator_Linear:LD3985M33R_SOT23: no datasheet card (datasheet unreachable); rely on the pin list and be conservative

@@ -1,0 +1,21 @@
+MODULE board: Provides a simple 5 V LED circuit powered via a 2-pin connector. Contains a red LED with a series current-limiting resistor for approximately 5 mA current draw.
+
+PARTS
+  R1    Device:R                                   620      Resistor R res resistor
+  D1    Device:LED                                 red      Light emitting diode LED diode
+  J1    Connector_Generic:Conn_01x02                        Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen
+
+NETS (pin names in brackets)
+  VIN           5.0 V  tag=power/power_in: R1.1, J1.Pin_1[Pin_1]
+  GND           0.0 V  tag=ground/bidir: D1.K[K], J1.Pin_2[Pin_2]
+  LED_A       : R1.2, D1.A[A]
+
+PORTS
+  VIN          power/power_in 5.0 V
+  GND          ground/bidir
+
+REASONING
+
+
+LINT
+board: PASS (0 errors, 0 warnings)

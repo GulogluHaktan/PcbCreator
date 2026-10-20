@@ -1,0 +1,23 @@
+BLOCK: connector: 2-pin connector.
+
+REASONING
+The module requires a 2-pin connector to provide the 5 V input and ground connections. The contract net VIN (5.0 V) must connect to one pin of the connector, and the contract net GND (0.0 V) must connect to the other pin. I will add a 2-pin generic connector (Conn_01x02) and assign its pins to the contract nets VIN and GND. This completes the power interface for the module. The LED and resistor are handled in a separate block as per instructions.
+
+MODULE board: Provides a simple 5 V LED circuit powered via a 2-pin connector. Contains a red LED with a series current-limiting resistor for approximately 5 mA current draw.
+
+PARTS
+  R1    Device:R                                   620      Resistor R res resistor
+  D1    Device:LED                                 red      Light emitting diode LED diode
+  J1    Connector_Generic:Conn_01x02                        Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen
+
+NETS (pin names in brackets)
+  VIN           5.0 V  tag=power/power_in: R1.1, J1.Pin_1[Pin_1]
+  GND           0.0 V  tag=ground/bidir: D1.K[K], J1.Pin_2[Pin_2]
+  LED_A       : R1.2, D1.A[A]
+
+PORTS
+  VIN          power/power_in 5.0 V
+  GND          ground/bidir
+
+LOCAL LINT
+clean
