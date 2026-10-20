@@ -1,0 +1,23 @@
+BLOCK: linear_regulator: Fixed 3.3 V low-dropout linear regulator. Include its input and output capacitors and tie any enable pin as the datasheet card says in this block.
+
+REASONING
+The LP38693DT-3.3 is a fixed 3.3 V LDO regulator. Per datasheet, the EN pin must be tied to the IN pin if the enable function is not used. The regulator has three pins: IN (power_in), OUT (power_out), and GND (ground). We connect IN to net VIN, OUT to net VOUT, and GND to ground. We add a 100nF decoupling capacitor from IN to GND and another from OUT to GND. The enable pin (EN) is tied to the IN pin (net VIN) as required. All pins are accounted for and connected to nets.
+
+MODULE power: Step down 5 V input to regulated 3.3 V output and drive green LED indicator
+
+PARTS
+  U1    Regulator_Linear:LP38693DT-3.3                      500-mA Low-Dropout CMOS Linear Regulators Stable With Ceramic Output Capacitors, 3.3V outp
+  C1    Device:C                                   100nF    Unpolarized capacitor cap capacitor
+  C2    Device:C                                   100nF    Unpolarized capacitor cap capacitor
+
+NETS (pin names in brackets)
+  VIN           5.0 V: U1.IN[IN], U1.EN, C1.1
+  VOUT          3.3 V: U1.OUT[OUT], C2.1
+  GND         : U1.GND[GND], C1.2, C2.2
+
+PORTS
+  VIN          power/power_in 5.0 V
+  VOUT         power/power_out 3.3 V
+
+LOCAL LINT
+ERROR   E002 [VIN] U1 (Regulator_Linear:LP38693DT-3.3) has no unambiguous pin 'EN'  hint: valid pins: 1:OUT, 2:GND, 3:IN

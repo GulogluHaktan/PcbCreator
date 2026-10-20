@@ -1,0 +1,28 @@
+MODULE power: Step down 5 V input to regulated 3.3 V output and drive green LED indicator
+
+PARTS
+  U1    Regulator_Linear:LP38693DT-3.3                      500-mA Low-Dropout CMOS Linear Regulators Stable With Ceramic Output Capacitors, 3.3V outp
+  C1    Device:C                                   100nF    Unpolarized capacitor cap capacitor
+  C2    Device:C                                   100nF    Unpolarized capacitor cap capacitor
+  R3    Device:R                                   680      Resistor R res resistor
+  D1    Device:LED                                 green    Light emitting diode LED diode
+  J1    Connector_Generic:Conn_01x02               2-pin connector Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen
+  J2    Connector_Generic:Conn_01x02                        Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen
+
+NETS (pin names in brackets)
+  VIN           5.0 V: U1.IN[IN], C1.1, J1.Pin_1[Pin_1]
+  VOUT          3.3 V: U1.OUT[OUT], C2.1, R3.1, J2.Pin_1[Pin_1]
+  GND           0.0 V: U1.GND[GND], C1.2, C2.2, D1.K[K], J1.Pin_2[Pin_2], J2.Pin_2[Pin_2]
+  LED_A       : R3.2, D1.A[A]
+
+PORTS
+  VIN          power/power_in 5.0 V
+  VOUT         power/power_out 3.3 V
+
+REASONING
+
+
+LINT
+power: FAIL (1 errors, 1 warnings)
+WARNING W090 [Regulator_Linear:LP38693DT-3.3] part Regulator_Linear:LP38693DT-3.3 is not verified against its datasheet
+ERROR   R001 [power (reviewer)] The EN pin of the regulator (U1) is not connected to any net. According to the datasheet, the EN pin must be terminated either actively or passively. For applications that do not require the enable function, it should be connected directly to the IN pin (VIN). Leaving it floating can cause the regulator to fail to operate correctly.

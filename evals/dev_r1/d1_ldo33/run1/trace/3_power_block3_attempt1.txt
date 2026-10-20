@@ -1,0 +1,27 @@
+BLOCK: connector: 2-pin connector for 5 V input.
+
+REASONING
+Adding a 2-pin connector for the 5 V input. The contract net VIN (5.0 V) must connect to one pin of the connector, and GND (0.0 V) to the other pin. This provides the external connection point for the power supply. The connector is a new part, so we assign it the designator J1. Pin 1 of the connector connects to the VIN net, and Pin 2 connects to the GND net.
+
+MODULE power: Step down 5 V input to regulated 3.3 V output and drive green LED indicator
+
+PARTS
+  U1    Regulator_Linear:LP38693DT-3.3                      500-mA Low-Dropout CMOS Linear Regulators Stable With Ceramic Output Capacitors, 3.3V outp
+  C1    Device:C                                   100nF    Unpolarized capacitor cap capacitor
+  C2    Device:C                                   100nF    Unpolarized capacitor cap capacitor
+  R3    Device:R                                   680      Resistor R res resistor
+  D1    Device:LED                                 green    Light emitting diode LED diode
+  J1    Connector_Generic:Conn_01x02               2-pin connector Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen
+
+NETS (pin names in brackets)
+  VIN           5.0 V: U1.IN[IN], C1.1, J1.Pin_1[Pin_1]
+  VOUT          3.3 V: U1.OUT[OUT], C2.1, R3.1
+  GND           0.0 V: U1.GND[GND], C1.2, C2.2, D1.K[K], J1.Pin_2[Pin_2]
+  LED_A       : R3.2, D1.A[A]
+
+PORTS
+  VIN          power/power_in 5.0 V
+  VOUT         power/power_out 3.3 V
+
+LOCAL LINT
+clean

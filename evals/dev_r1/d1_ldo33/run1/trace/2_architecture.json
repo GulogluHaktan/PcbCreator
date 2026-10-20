@@ -1,0 +1,59 @@
+{
+  "reasoning": "",
+  "modules": [
+    {
+      "name": "power",
+      "purpose": "Step down 5 V input to regulated 3.3 V output and drive green LED indicator",
+      "ports": [
+        {
+          "net": "VIN",
+          "direction": "power_in",
+          "kind": "power",
+          "voltage": 5.0,
+          "protocol": null,
+          "optional": false
+        },
+        {
+          "net": "VOUT",
+          "direction": "power_out",
+          "kind": "power",
+          "voltage": 3.3,
+          "protocol": null,
+          "optional": false
+        }
+      ],
+      "required": [
+        {
+          "kind": "connector",
+          "count": 1,
+          "detail": "2-pin connector for 5 V input"
+        },
+        {
+          "kind": "connector",
+          "count": 1,
+          "detail": "2-pin connector for 3.3 V output"
+        },
+        {
+          "kind": "linear_regulator",
+          "count": 1,
+          "detail": "Fixed 3.3 V low-dropout linear regulator"
+        },
+        {
+          "kind": "led",
+          "count": 1,
+          "detail": "Green power-indicator LED"
+        },
+        {
+          "kind": "support",
+          "count": 1,
+          "detail": "Current-limiting resistor for the green LED (approx. 2 mA)"
+        }
+      ]
+    }
+  ],
+  "links": [],
+  "expose": [
+    "power.VIN",
+    "power.VOUT"
+  ]
+}
