@@ -71,8 +71,9 @@ def test_pipeline_gives_up_and_stores_nothing_on_persistent_failure(tmp_path):
             return out
 
     memory = DesignMemory(str(tmp_path / "chroma"))
-    res = Pipeline(Stubborn(), LIB, memory, max_module_repairs=1).run("fc")
+    res = Pipeline(Stubborn(), LIB, memory, max_module_repairs=1, max_restarts=1).run("fc")
     assert res.status == "failed" and memory.modules.count() == 0
+    assert any("restart 1/1" in line for line in res.log)
 
 
 def test_strict_pipeline_rejects_unverified_seed_parts():

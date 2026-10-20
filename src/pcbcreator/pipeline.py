@@ -81,13 +81,15 @@ class Pipeline:
     def __init__(self, llm: LLM, lib: Library, memory: DesignMemory | None = None, *,
                  strict: bool = False, max_module_repairs: int = 3, max_arch_repairs: int = 2,
                  echo: bool = False, cards=None, scout: bool = False, review: bool = False, stepwise: bool = True,
-                 max_block_attempts: int = 6, exclude_example_origins=None, trace_dir=None):
+                 max_block_attempts: int = 6, max_restarts: int = 2, exclude_example_origins=None, trace_dir=None):
         self.echo, self.cards, self.trace_dir = echo, cards, trace_dir
         self.scout, self.review = scout, review
         self.stepwise, self.max_block_attempts = stepwise, max_block_attempts
         # LLM output is never trusted as an example until a human approves it (pcbc approve)
         self.exclude_example_origins = exclude_example_origins if exclude_example_origins is not None else ["llm_pending"]
         self.accepted_blocks: list[tuple] = []
+        self.max_restarts = max_restarts
+        self._base_t = getattr(llm, "temperature", 0.3)
         self.card_map: dict = {}
         self.llm, self.lib, self.memory, self.strict = llm, lib, memory, strict
         self.max_module_repairs, self.max_arch_repairs = max_module_repairs, max_arch_repairs
@@ -137,6 +139,53 @@ class Pipeline:
                     "handing over to the module-level repair loop")
                 return new_state
         return state
+
+    def _build_and_repair(self, plan, module_req, parts, cards_text, say, suffix: str = ""):
+        """One full attempt at a module: stepwise build, then lint / coverage / reviewer / patch repair rounds."""
+        module = report = None
+        feedback: list[Finding] | None = None
+        built, last_patch = None, None
+        if self.stepwise and module_req.required:
+            built = self._build_stepwise(plan, module_req, parts, cards_text, say)
+        for attempt in range(self.max_module_repairs + 1):
+            if attempt == 0 and built is not None:
+                module = built
+            elif built is not None and feedback:
+                # patch-based repair: rewriting the whole module let the model break what already worked
+                patch = agents.design_repair(self.llm, plan, module_req, state_summary(module, self.lib),
+                                             parts, self.lib, cards_text, feedback, last_patch)
+                module, rerrs = apply_repair(module, patch, self.lib)
+                module = module.model_copy(update={"name": plan.name})
+                last_patch = patch
+                self._trace(f"3_{plan.name}{suffix}_repair{attempt}.json", patch.model_dump_json(indent=2))
+                if rerrs:
+                    say("    repair edit had problems: " + "; ".join(str(f) for f in rerrs))
+            else:
+                module = agents.design_module(self.llm, plan, module_req, self.lib, self.memory,
+                                              parts, cards_text, module, feedback)
+            module = module.model_copy(update={"name": plan.name})
+            report = lint(module, self.lib, strict=self.strict, cards=self.card_map)
+            report.findings.extend(check_contract(module, plan.ports))
+            report.findings.extend(check_coverage(module, self.lib, module_req.required))
+            if report.passed and self.review:
+                review = agents.review_module(self.llm, module_req, module, self.lib, cards_text)
+                self._trace(f"3_{plan.name}{suffix}_attempt{attempt + 1}_review.json", review.model_dump_json(indent=2))
+                report.findings.extend(agents.review_findings(review, plan.name))
+            self._trace(f"3_{plan.name}{suffix}_attempt{attempt + 1}.txt",
+                        describe_module(module, self.lib) + "\n\nREASONING\n" + module.reasoning
+                        + "\n\nLINT\n" + report.to_text())
+            self._trace(f"3_{plan.name}{suffix}_attempt{attempt + 1}.json", module.model_dump_json(indent=2))
+            if report.passed:
+                break
+            feedback = report.errors
+            say(f"module {plan.name}: attempt {attempt + 1} failed with {len(report.errors)} errors")
+            for f in report.errors:
+                say(f"    {f}")
+        return module, report
+
+    def _set_temperature(self, t: float) -> None:
+        if hasattr(self.llm, "temperature"):
+            self.llm.temperature = t
 
     def run(self, request: str, name: str = "design") -> PipelineResult:
         res = PipelineResult()
@@ -208,43 +257,18 @@ class Pipeline:
                              if self.cards is not None else {})
             self._trace(f"3_{plan.name}_candidates.txt",
                         "\n".join(self.lib.summary(p) for p in parts) + "\n\nCARDS\n" + cards_text)
-            built, last_patch = None, None
-            if self.stepwise and module_req.required:
-                built = self._build_stepwise(plan, module_req, parts, cards_text, say)
-            for attempt in range(self.max_module_repairs + 1):
-                if attempt == 0 and built is not None:
-                    module = built
-                elif built is not None and feedback:
-                    # patch-based repair: rewriting the whole module let the model break what already worked
-                    patch = agents.design_repair(self.llm, plan, module_req, state_summary(module, self.lib),
-                                                 parts, self.lib, cards_text, feedback, last_patch)
-                    module, rerrs = apply_repair(module, patch, self.lib)
-                    module = module.model_copy(update={"name": plan.name})
-                    last_patch = patch
-                    self._trace(f"3_{plan.name}_repair{attempt}.json", patch.model_dump_json(indent=2))
-                    if rerrs:
-                        say("    repair edit had problems: " + "; ".join(str(f) for f in rerrs))
-                else:
-                    module = agents.design_module(self.llm, plan, module_req, self.lib, self.memory,
-                                                  parts, cards_text, module, feedback)
-                module = module.model_copy(update={"name": plan.name})
-                report = lint(module, self.lib, strict=self.strict, cards=self.card_map)
-                report.findings.extend(check_contract(module, plan.ports))
-                report.findings.extend(check_coverage(module, self.lib, module_req.required))
-                if report.passed and self.review:
-                    review = agents.review_module(self.llm, module_req, module, self.lib, cards_text)
-                    self._trace(f"3_{plan.name}_attempt{attempt + 1}_review.json", review.model_dump_json(indent=2))
-                    report.findings.extend(agents.review_findings(review, plan.name))
-                self._trace(f"3_{plan.name}_attempt{attempt + 1}.txt",
-                            describe_module(module, self.lib) + "\n\nREASONING\n" + module.reasoning
-                            + "\n\nLINT\n" + report.to_text())
-                self._trace(f"3_{plan.name}_attempt{attempt + 1}.json", module.model_dump_json(indent=2))
+            module = report = None
+            kept_blocks = len(self.accepted_blocks)
+            for restart in range(self.max_restarts + 1):
+                if restart:  # pass@k style: a fresh sample, a little hotter, from scratch
+                    del self.accepted_blocks[kept_blocks:]  # blocks of the failed attempt must not reach memory
+                    say(f"module {plan.name}: restart {restart}/{self.max_restarts} with a fresh sample")
+                    self._set_temperature(min(1.0, self._base_t + 0.2 * restart))
+                module, report = self._build_and_repair(plan, module_req, parts, cards_text, say,
+                                                        f"_r{restart}" if restart else "")
                 if report.passed:
                     break
-                feedback = report.errors
-                say(f"module {plan.name}: attempt {attempt + 1} failed with {len(report.errors)} errors")
-                for f in report.errors:
-                    say(f"    {f}")
+            self._set_temperature(self._base_t)
             assert module is not None and report is not None
             res.modules.append(module)
             res.module_reports[plan.name] = report
