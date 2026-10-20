@@ -255,6 +255,10 @@ def build_wired(module: Module, lib: Library, share: Path = KICAD_SHARE, variant
             channel_nets.setdefault(chan, [])
             if net not in channel_nets[chan]:
                 channel_nets[chan].append(net)
+    net_chans: dict[str, set[int]] = {}
+    for _i, _n, _px, _py, _o, net, chan in pin_info:
+        net_chans.setdefault(net, set()).add(chan)
+    multi = sorted(n for n, ch in net_chans.items() if len(ch) > 1)
     for k in channel_nets:
         channel_nets[k].sort()
         if variant and len(channel_nets[k]) > 1:  # another bar order avoids accidental wire contacts
@@ -277,7 +281,7 @@ def build_wired(module: Module, lib: Library, share: Path = KICAD_SHARE, variant
     total_w = cursor
     pos, total_h = {}, 0.0
     for c in range(ncols):
-        y = 28.0
+        y = 38.0 + 2.54 * len(multi)
         for i in col_items[c]:
             x_min, _, _, y_max = extent(items[i])
             y_min = extent(items[i])[2]
@@ -314,16 +318,28 @@ def build_wired(module: Module, lib: Library, share: Path = KICAD_SHARE, variant
             blocks.append(_wire(x1, y1, sx, sy))
             blocks.append(_wire(sx, sy, tx, sy))
             attach.setdefault((chan, net), []).append(sy)
+    def junction(x: float, y: float) -> str:
+        return (f'\t(junction\n\t\t(at {_f(x)} {_f(y)})\n\t\t(diameter 0)\n\t\t(color 0 0 0 0)\n'
+                f'\t\t(uuid "{uuid.uuid4()}")\n\t)')
+
+    bridge_y = {n: 20.0 + 2.54 * i for i, n in enumerate(multi)}
     for (chan, net), ys in attach.items():
         tx = trunk_x[(chan, net)]
         lo, hi = min(ys), max(ys)
+        if net in bridge_y:  # the bar runs up to the net's bridge row, which joins all of its bars
+            top = bridge_y[net]
+            blocks.append(_wire(tx, top, tx, hi))
+            blocks.extend(junction(tx, y) for y in set(ys) if top < y < hi)
+            continue
         if hi > lo:
             blocks.append(_wire(tx, lo, tx, hi))
-        for y in set(ys):
-            if lo < y < hi:
-                blocks.append(f'\t(junction\n\t\t(at {_f(tx)} {_f(y)})\n\t\t(diameter 0)\n\t\t(color 0 0 0 0)\n'
-                              f'\t\t(uuid "{uuid.uuid4()}")\n\t)')
+        blocks.extend(junction(tx, y) for y in set(ys) if lo < y < hi)
         blocks.append(_label(net, tx, lo, 90))
+    for net, top in bridge_y.items():
+        txs = sorted(trunk_x[(c, net)] for c in net_chans[net])
+        blocks.append(_wire(txs[0], top, txs[-1], top))
+        blocks.extend(junction(x, top) for x in txs[1:-1])
+        blocks.append(_label(net, txs[0], top, 0))
     for i, it in enumerate(items):
         cx, cy, _ = pos[i]
         nc = {p.number for p in it["part"].pins if p.type.value == "nc"}
