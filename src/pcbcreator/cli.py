@@ -48,8 +48,10 @@ def cmd_render(args: argparse.Namespace) -> int:
     module = Module.model_validate_json(Path(args.file).read_text())
     r = render(module, KicadLibrary(), args.out)
     print("schematic:", r["schematic"], "\npdf:", r.get("pdf_ok"), "\npng:", r.get("png"))
+    diff = r["connectivity_diff"]
+    print("connectivity: KiCad reads exactly our nets" if not diff else "connectivity MISMATCH:\n  " + "\n  ".join(diff))
     print("KiCad ERC:\n" + r["erc"])
-    return 0
+    return 0 if not diff else 1
 
 
 def cmd_example(args: argparse.Namespace) -> int:
@@ -95,6 +97,8 @@ def cmd_design(args: argparse.Namespace) -> int:
             from .schematic import render
             r = render(res.merge.module, lib, out / "schematic", args.name)
             print("schematic drawing:", r.get("png") or r.get("schematic"))
+            if r["connectivity_diff"]:
+                print("WARNING: the drawing does not match the netlist:", r["connectivity_diff"])
         for f in res.merge.findings:
             print(f)
     print(f"status: {res.status}")

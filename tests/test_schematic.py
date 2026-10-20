@@ -36,4 +36,7 @@ def test_extends_is_flattened_and_labels_are_written_for_every_connected_pin():
 def test_kicad_itself_accepts_the_schematic_and_every_connected_pin_is_attached(tmp_path):
     r = render(_fixture(), KicadLibrary(), tmp_path)
     assert r["pdf_ok"] and "pin_not_connected" not in r["erc"]
+    assert r["connectivity_diff"] == []  # KiCad reads back exactly the nets we meant, with the wire stubs
     assert (tmp_path / "fx.kicad_sch").exists()
+    import json
+    assert json.loads((tmp_path / "fx.kicad_pro").read_text())["meta"]["filename"] == "fx.kicad_pro"

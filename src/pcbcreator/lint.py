@@ -76,8 +76,9 @@ def close(a: float, b: float, tol: float = V_TOL) -> bool:
 class Ctx:
     """Resolved view of a module: which pin is on which net, with problems collected."""
 
-    def __init__(self, module: Module, lib: Library, merged: bool = False, strict: bool = False):
+    def __init__(self, module: Module, lib: Library, merged: bool = False, strict: bool = False, cards=None):
         self.module, self.lib, self.merged, self.strict = module, lib, merged, strict
+        self.cards = cards or {}  # part id -> PartCard (datasheet digest; values the model extracted, unconfirmed)
         self.parts: dict[str, PartDef] = {}
         self.pin_net: dict[tuple[str, str], str] = {}
         self.net_pins: dict[str, list[tuple[str, PartPin]]] = defaultdict(list)
@@ -317,6 +318,52 @@ def ports(ctx: Ctx) -> Iterable[Finding]:
                 yield _f("E072", "error", f"port {port.net} says {port.voltage} V but net is {rv} V", port.net)
 
 
+_UNITS = {"p": 1e-6 * 1e-6, "n": 1e-3 * 1e-6, "u": 1e-6, "µ": 1e-6, "μ": 1e-6, "m": 1e-3, "": 1e-6}
+
+
+def capacitance_uf(value: str | None) -> float | None:
+    """'100nF' -> 0.1, '1uF' -> 1.0, '10 µF' -> 10.0. A bare number is read as microfarads."""
+    import re
+
+    m = re.fullmatch(r"\s*([\d.]+)\s*([pnuµμm]?)\s*[fF]?\s*", value or "")
+    if not m:
+        return None
+    farads = float(m.group(1)) * (_UNITS[m.group(2)] if m.group(2) else 1e-6)
+    return farads * 1e6
+
+
+@rule
+def datasheet_capacitor_minimums(ctx: Ctx) -> Iterable[Finding]:
+    """Input/output capacitance must reach the minimum the part's datasheet card states. Real run: a 100 nF output
+    capacitor on an LDO whose datasheet requires at least 1 uF. The card values are model-extracted and
+    unconfirmed, so a human must still check the datasheet."""
+    for ref, part in ctx.parts.items():
+        card = ctx.cards.get(part.id)
+        if card is None:
+            continue
+        for want, types, side in ((card.min_input_capacitance_uf, (PinType.power_in,), "input"),
+                                  (card.min_output_capacitance_uf, (PinType.power_out,), "output")):
+            if want is None:
+                continue
+            for pin in part.pins:
+                if pin.type not in types or (ref, pin.number) not in ctx.pin_net:
+                    continue
+                net = ctx.pin_net[(ref, pin.number)]
+                total, unknown = 0.0, False
+                inst = {i.ref: i for i in ctx.module.parts}
+                for r, cpin in ctx.net_pins.get(net, []):
+                    if ctx.parts[r].passive_kind == "capacitor":
+                        other = ctx.other_terminal_net(r, cpin)
+                        if other and is_ground_net(other):
+                            val = capacitance_uf(inst[r].value)
+                            unknown |= val is None
+                            total += val or 0.0
+                if not unknown and total < want * 0.999:
+                    yield _f("E054", "error", f"{ref} {side} ({pin.name}) has {total:g} uF to ground but the datasheet "
+                             f"card asks for at least {want:g} uF (card unconfirmed)", ref,
+                             f"use a capacitor of at least {want:g} uF on {net}")
+
+
 @rule
 def led_series_resistor(ctx: Ctx) -> Iterable[Finding]:
     """An LED needs a resistor in SERIES. A resistor merely somewhere on the board does not count: the
@@ -377,8 +424,8 @@ def unverified_parts(ctx: Ctx) -> Iterable[Finding]:
             yield _f("W090", "warning", f"part {part_id} is not verified against its datasheet", part_id)
 
 
-def lint(module: Module, lib: Library, *, merged: bool = False, strict: bool = False) -> Report:
-    ctx = Ctx(module, lib, merged=merged, strict=strict)
+def lint(module: Module, lib: Library, *, merged: bool = False, strict: bool = False, cards=None) -> Report:
+    ctx = Ctx(module, lib, merged=merged, strict=strict, cards=cards)
     report = Report(module.name)
     for fn in RULES:
         report.findings.extend(fn(ctx))

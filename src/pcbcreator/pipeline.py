@@ -76,6 +76,7 @@ class Pipeline:
         # LLM output is never trusted as an example until a human approves it (pcbc approve)
         self.exclude_example_origins = exclude_example_origins if exclude_example_origins is not None else ["llm_pending"]
         self.accepted_blocks: list[tuple] = []
+        self.card_map: dict = {}
         self.llm, self.lib, self.memory, self.strict = llm, lib, memory, strict
         self.max_module_repairs, self.max_arch_repairs = max_module_repairs, max_arch_repairs
 
@@ -102,7 +103,8 @@ class Pipeline:
                 patch = agents.design_block(self.llm, plan, req, block, state_summary(state, self.lib), parts,
                                             self.lib, cards_text, patch, feedback, examples)
                 new_state, errs = apply_patch(state, patch)
-                errs = errs or scope_findings(patch, block, self.lib, owned) or local_findings(new_state, patch, self.lib)
+                errs = errs or scope_findings(patch, block, self.lib, owned) or local_findings(new_state, patch, self.lib,
+                                                                                    self.card_map)
                 self._trace(f"3_{plan.name}_block{k}_attempt{attempt}.txt",
                             f"BLOCK: {block.instruction}\n\nREASONING\n{patch.reasoning}\n\n"
                             + describe_module(new_state, self.lib) + "\n\nLOCAL LINT\n"
@@ -185,6 +187,8 @@ class Pipeline:
             else:
                 parts = agents.candidate_parts(self.lib, self.memory, queries)
             cards_text = agents.cards_context(parts, self.cards)
+            self.card_map = ({p.id: c for p in parts if p.category == "ic" and (c := self.cards.peek(p)) is not None}
+                             if self.cards is not None else {})
             self._trace(f"3_{plan.name}_candidates.txt",
                         "\n".join(self.lib.summary(p) for p in parts) + "\n\nCARDS\n" + cards_text)
             built, last_patch = None, None
@@ -207,7 +211,7 @@ class Pipeline:
                     module = agents.design_module(self.llm, plan, res.requirements, self.lib, self.memory,
                                                   parts, cards_text, module, feedback)
                 module = module.model_copy(update={"name": plan.name})
-                report = lint(module, self.lib, strict=self.strict)
+                report = lint(module, self.lib, strict=self.strict, cards=self.card_map)
                 report.findings.extend(check_contract(module, plan.ports))
                 if single:  # with several modules the checklist is checked on the merged board
                     report.findings.extend(check_coverage(module, self.lib, res.requirements.required))

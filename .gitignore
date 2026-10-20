@@ -3,3 +3,8 @@ __pycache__/
 .pcbc/
 *.egg-info/
 .pytest_cache/
+
+# KiCad per-user state
+*.kicad_prl
+*-backups/
+fp-info-cache

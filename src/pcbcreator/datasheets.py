@@ -20,10 +20,10 @@ from .models import PartDef
 
 DEFAULT_QUERY = ("input voltage range, output voltage, dropout voltage, absolute maximum ratings, "
                  "recommended operating conditions, output capacitor requirements, supply current")
-MAX_PAGES = 12  # specs live at the front of a datasheet
+MAX_PAGES = 40  # the application section (capacitor requirements...) often starts after page 12
 
 
-def chunk_text(text: str, size: int = 900, max_chunks: int = 80) -> list[str]:
+def chunk_text(text: str, size: int = 900, max_chunks: int = 500) -> list[str]:
     paras = [re.sub(r"[ \t]+", " ", p).strip() for p in re.split(r"\n\s*\n", text)]
     chunks, cur = [], ""
     for para in paras:
@@ -97,6 +97,20 @@ class DatasheetStore:
         out = subprocess.run(["pdftotext", "-layout", "-l", str(MAX_PAGES), str(pdf), "-"],
                              capture_output=True, text=True, timeout=60, check=False)
         return self.add_text(part.id, out.stdout) > 0
+
+    def excerpts_multi(self, part_id: str, queries: list[str], per_query: int = 3, max_chars: int = 7000) -> str:
+        """Several targeted searches (pins, ratings, capacitor requirements...) merged without duplicates; one
+        broad query lets the loud front-matter chunks crowd out the application section."""
+        seen, out, used = set(), [], 0
+        for q in queries:
+            res = self.memory.datasheets.query(query_embeddings=self.memory.embedder.embed([q]), n_results=per_query,
+                                               where={"part_id": part_id})
+            for cid, doc in zip(res["ids"][0], res["documents"][0]):
+                if cid not in seen and used < max_chars:
+                    seen.add(cid)
+                    out.append(doc)
+                    used += len(doc)
+        return "\n---\n".join(out)
 
     def excerpts(self, part_id: str, query: str = DEFAULT_QUERY, n: int = 3, max_chars: int = 1500) -> str:
         res = self.memory.datasheets.query(query_embeddings=self.memory.embedder.embed([query]),

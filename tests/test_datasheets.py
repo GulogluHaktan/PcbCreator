@@ -6,9 +6,10 @@ from pcbcreator.models import Instance, Module, Net
 
 
 def test_chunking_splits_long_text_and_caps_count():
-    text = "\n\n".join(f"paragraph {i} " + "word " * 80 for i in range(200))
+    text = "\n\n".join(f"paragraph {i} " + "word " * 80 for i in range(1500))
     chunks = chunk_text(text)
-    assert 1 < len(chunks) <= 80 and all(len(c) <= 1400 for c in chunks)
+    assert len(chunks) == 500 and all(len(c) <= 1400 for c in chunks)  # capped, none oversized
+    assert 1 < len(chunk_text("\n\n".join(f"paragraph {i} " + "word " * 80 for i in range(20)))) < 500
 
 
 def test_store_returns_relevant_passage_for_a_part(tmp_path):

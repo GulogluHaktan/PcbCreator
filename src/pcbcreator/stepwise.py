@@ -22,7 +22,7 @@ from .lint import Finding, lint
 from .models import Instance, Module, Net, Port
 
 # rule families that are meaningful on a partially built module
-LOCAL_RULES = {"E001", "E002", "E003", "E004", "E005", "E010", "E030", "E032", "E051", "E053", "E060", "E061"}
+LOCAL_RULES = {"E001", "E002", "E003", "E004", "E005", "E010", "E030", "E032", "E051", "E053", "E054", "E060", "E061"}
 
 KIND_ORDER = {"linear_regulator": 0, "switching_regulator": 0, "mcu": 0, "sensor": 1, "led": 2, "connector": 3,
               "support": 8, "other": 9}
@@ -152,11 +152,11 @@ def apply_repair(state: Module, patch: RepairPatch, lib: Library) -> tuple[Modul
     return new, errors + add_errs
 
 
-def local_findings(state: Module, patch: BlockPatch, lib: Library) -> list[Finding]:
+def local_findings(state: Module, patch: BlockPatch, lib: Library, cards=None) -> list[Finding]:
     new_refs = {p.ref for p in patch.parts}
     touched = {n.name for n in patch.nets}
     out = []
-    for f in lint(state, lib).findings:
+    for f in lint(state, lib, cards=cards).findings:
         if f.severity != "error" or f.rule not in LOCAL_RULES:
             continue
         if f.location.split(".")[0] in new_refs or f.location in touched:
