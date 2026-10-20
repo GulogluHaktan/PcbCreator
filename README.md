@@ -138,6 +138,16 @@ status: ok
 
 Every attempt is written to `out/trace/` (requirements, shortlist, selection, each block and its lint result, reviewer output). Datasheets from vendors that block scripted downloads can be placed by hand in `.pcbc/chroma/datasheets_manual/<Library>__<Part>.pdf`. LLM results wait in memory as `llm_pending`; review the schematic, then `pcbc pending` and `pcbc approve <id>`.
 
+**Evaluation.** `pcbc eval` runs a request list several times and records, per run, whether every automatic gate passed, how many block attempts were rejected and which rules fired. A gate pass is **not** correctness (two of our designs passed every gate and were wrong), so judge each drawing and record it with `pcbc verdict`:
+
+```bash
+uv run pcbc eval evals/devset.json --runs 2 --out evals/dev       # development set (prompts and rules were tuned on it)
+uv run pcbc verdict evals/dev d1_ldo33 1 false "output cap below the datasheet minimum"
+cat evals/dev/summary.md                                          # gate pass vs human-verified correct, per request
+```
+
+`evals/heldout.json` holds requests that are run only with frozen code (the commit hash is recorded in the summary).
+
 ## Reproducing the results
 
 | Figure | Command |
@@ -158,7 +168,8 @@ PcbCreator/
 ├── plots/         # result figures (KiCad renders of generated designs)
 ├── results/       # module JSON of the generated designs shown above
 ├── paper/         # yontem.tex / yontem.pdf: method report (Turkish); built by scripts/make_report.py
-├── scripts/       # serve.sh (local model), check_install.py, make_architecture.py
+├── evals/         # devset.json, heldout.json and evaluation outputs
+├── scripts/       # serve.sh (local model), check_install.py, make_architecture.py, make_report.py
 ├── src/pcbcreator/
 │   ├── models.py        # Module / Net / Port / Design (all LLM output is validated JSON, never executed code)
 │   ├── lint.py          # deterministic rule set (E0xx errors, Wxxx warnings)

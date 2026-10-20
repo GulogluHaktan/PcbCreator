@@ -138,6 +138,16 @@ status: ok
 
 Her deneme `out/trace/` altına yazılır (gereksinimler, aday listesi, seçim, her blok ve lint sonucu, gözden geçirici çıktısı). Betik indirmelerini engelleyen üreticilerin datasheet'lerini `.pcbc/chroma/datasheets_manual/<Kütüphane>__<Parça>.pdf` yoluna elle koyabilirsin. LLM sonuçları hafızada `llm_pending` olarak bekler; şematiği incele, sonra `pcbc pending` ve `pcbc approve <id>`.
 
+**Değerlendirme.** `pcbc eval`, bir istek listesini birkaç kez çalıştırır ve her koşuda tüm otomatik kapıların geçilip geçilmediğini, kaç blok denemesinin reddedildiğini ve hangi kuralların çalıştığını kaydeder. Kapıların geçilmesi doğruluk **değildir** (iki tasarımımız tüm kapıları geçti ve yanlıştı), bu yüzden her çizimi inceleyip `pcbc verdict` ile kaydet:
+
+```bash
+uv run pcbc eval evals/devset.json --runs 2 --out evals/dev       # geliştirme seti (istem ve kurallar bunun üzerinde ayarlandı)
+uv run pcbc verdict evals/dev d1_ldo33 1 false "çıkış kondansatörü datasheet asgarisinin altında"
+cat evals/dev/summary.md                                          # istek başına: kapı geçişi ve insanın doğruladığı
+```
+
+`evals/heldout.json`, yalnızca dondurulmuş kodla çalıştırılacak istekleri içerir (commit özeti sonuç tablosuna yazılır).
+
 ## Sonuçları yeniden üret
 
 | Şekil | Komut |
@@ -158,7 +168,8 @@ PcbCreator/
 ├── plots/         # sonuç şekilleri (üretilen tasarımların KiCad çizimleri)
 ├── results/       # yukarıda gösterilen tasarımların modül JSON dosyaları
 ├── paper/         # yontem.tex / yontem.pdf: yöntem raporu; scripts/make_report.py ile üretilir
-├── scripts/       # serve.sh (yerel model), check_install.py, make_architecture.py
+├── evals/         # devset.json, heldout.json ve değerlendirme çıktıları
+├── scripts/       # serve.sh (yerel model), check_install.py, make_architecture.py, make_report.py
 ├── src/pcbcreator/
 │   ├── models.py        # Module / Net / Port / Design (tüm LLM çıktısı doğrulanan JSON'dur, çalıştırılan kod değil)
 │   ├── lint.py          # deterministik kural kümesi (E0xx hata, Wxxx uyarı)

@@ -1,4 +1,0 @@
-{
-  "reasoning": "The module requires a 2-pin input connector, a red LED, and a current-limiting resistor for the LED. The shortlist provided contains only LED driver ICs and no connectors, LEDs, or resistors. Therefore, no parts from the shortlist are selected. Generic components (connector, LED, resistor) are assumed available and selected directly in the design as per instructions.",
-  "finalists": []
-}
