@@ -1,0 +1,14 @@
+[
+  {"id": "d0_led",
+   "prompt": "LED board: 5 V input from a 2-pin connector and one red LED with a series current-limiting resistor for about 5 mA."},
+  {"id": "d1_ldo33",
+   "prompt": "Power board: input 5 V from a 2-pin connector, a fixed 3.3 V low-dropout linear regulator, a 2-pin 3.3 V output connector, and a green power-indicator LED on the 3.3 V rail with a suitable current-limiting resistor (about 2 mA)."},
+  {"id": "d2_ldo18",
+   "prompt": "Power board: input 3.3 V from a 2-pin connector, a fixed 1.8 V low-dropout linear regulator, a 2-pin 1.8 V output connector, and a yellow power-indicator LED on the 1.8 V rail with a suitable current-limiting resistor (about 1 mA)."},
+  {"id": "d3_temp_i2c",
+   "prompt": "Temperature sensor breakout: powered from 3.3 V through a 4-pin header (3V3, GND, SDA, SCL), one digital I2C temperature sensor, the I2C pull-up resistors and the supply decoupling it needs."},
+  {"id": "d4_baro_i2c",
+   "prompt": "Barometric pressure sensor breakout: powered from 3.3 V through a 4-pin header (3V3, GND, SDA, SCL), one digital I2C barometric pressure sensor, the I2C pull-up resistors and the supply decoupling it needs."},
+  {"id": "d5_two_modules",
+   "prompt": "Two-module sensor node. Module 'power': input 5 V from a 2-pin connector and a fixed 3.3 V low-dropout linear regulator with its capacitors. Module 'sensor': one digital I2C temperature sensor with its pull-up resistors and decoupling, and a 4-pin header (3V3, GND, SDA, SCL). Keep power and sensor as two separate modules joined by the 3.3 V rail."}
+]

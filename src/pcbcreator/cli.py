@@ -136,6 +136,36 @@ def cmd_seed_blocks(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_eval(args: argparse.Namespace) -> int:
+    """Run a request list several times and write results.json + summary.md (see evaluate.py)."""
+    import subprocess
+
+    from .datasheets import DatasheetStore
+    from .evaluate import run_eval
+    from .kicad_import import KicadLibrary
+    from .llm import LlamaServerClient
+    from .memory import DesignMemory, make_embedder
+    from .partcards import CardStore
+    from .pipeline import Pipeline
+
+    requests = json.loads(Path(args.requests).read_text())
+    memory = DesignMemory(args.memory, make_embedder(args.embedder))
+    lib = KicadLibrary()
+    llm = LlamaServerClient(base_url=args.base_url, thinking=args.thinking)
+    cards = CardStore(llm, DatasheetStore(memory, Path(args.memory) / "datasheet_pdfs",
+                                          Path(args.memory) / "datasheets_manual"), Path(args.memory) / "part_cards")
+
+    def make(trace: Path) -> Pipeline:
+        return Pipeline(llm, lib, memory, cards=cards, scout=True, review=True, trace_dir=trace)
+
+    commit = subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True).stdout.strip()
+    dirty = bool(subprocess.run(["git", "status", "--porcelain", "src"], capture_output=True, text=True).stdout.strip())
+    meta = {"name": Path(args.requests).stem, "commit": commit + ("+dirty" if dirty else ""),
+            "model": "Ternary Bonsai 27B (PQ2_0)"}
+    run_eval(requests, args.runs, args.out, make, lib, meta)
+    return 0
+
+
 def cmd_pending(args: argparse.Namespace) -> int:
     from .memory import DesignMemory, make_embedder
 
@@ -210,6 +240,11 @@ def main(argv: list[str] | None = None) -> int:
 
     p = sub.add_parser("index-kicad", help="index every installed KiCad symbol into Chroma (for part search)")
     p.add_argument("--memory", default=".pcbc/chroma"); p.set_defaults(fn=cmd_index_kicad)
+
+    p = sub.add_parser("eval", help="run a list of requests several times and summarise (gate pass vs human verdict)")
+    p.add_argument("requests"); p.add_argument("--runs", type=int, default=2); p.add_argument("--out", default="evals/run")
+    p.add_argument("--memory", default=".pcbc/chroma"); p.add_argument("--base-url", default="http://127.0.0.1:8080")
+    p.add_argument("--thinking", action="store_true"); p.set_defaults(fn=cmd_eval)
 
     p = sub.add_parser("pending", help="list LLM results waiting for human approval")
     p.add_argument("--memory", default=".pcbc/chroma"); p.set_defaults(fn=cmd_pending)

@@ -53,6 +53,9 @@ class ModulePlan(BaseModel):
     name: str
     purpose: str
     ports: list[Port]
+    required: list[RequiredItem] = Field(
+        default=[], description="The concrete parts THIS module must contain (same kinds as the requirements "
+                                "checklist). Every checklist item must be assigned to exactly one module.")
 
 
 class Architecture(BaseModel):
@@ -251,7 +254,9 @@ def plan_architecture(llm: LLM, req: Requirements, lib: Library, memory: DesignM
               "All grounds are tied together automatically; do not link GND ports. "
               "Every module must contain real components (ICs/connectors plus their passives); never create "
               "modules for buses or wires (e.g. 'spi_bus'). Use at most 6 modules; a regulator and its input "
-              "connector belong in one 'power' module.\n" + RULES_TEXT)
+              "connector belong in one 'power' module. For every module fill 'required' with the concrete parts it must "
+              "contain; each item of the requirements checklist goes to exactly one module. Modules are joined through "
+              "their ports, so do not add connectors just to link two modules.\n" + RULES_TEXT)
     user = (f"Requirements:\n{req.model_dump_json()}\n\nSimilar verified modules:\n"
             f"{examples_context(memory, req.summary, 2)}")
     if feedback and previous:

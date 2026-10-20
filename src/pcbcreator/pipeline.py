@@ -33,9 +33,18 @@ class PipelineResult:
     log: list[str] = field(default_factory=list)
 
 
-def architecture_findings(arch: Architecture) -> list[Finding]:
+def architecture_findings(arch: Architecture, req: Requirements | None = None) -> list[Finding]:
     """Cheap structural check of the plan before any module is designed."""
     out: list[Finding] = []
+    if req is not None and len(arch.modules) > 1:  # every checklist item must be given to some module
+        for item in req.required:
+            if item.kind in ("other", "support"):
+                continue
+            have = sum(r.count for m in arch.modules for r in m.required if r.kind == item.kind)
+            if have < item.count:
+                out.append(Finding("E100", "error", f"checklist item '{item.kind} x{item.count}: {item.detail}' is "
+                                   f"assigned to modules {have} time(s)", "architecture",
+                                   "list it under 'required' of the module that owns it"))
     ports = {(m.name, p.net) for m in arch.modules for p in m.ports}
     names = [m.name for m in arch.modules]
     if len(set(names)) != len(names):
@@ -57,11 +66,14 @@ def architecture_findings(arch: Architecture) -> list[Finding]:
     return out
 
 
-def normalise_architecture(arch: Architecture) -> Architecture:
-    """A one-module board has nothing to link: every non-ground port simply leaves the board."""
+def normalise_architecture(arch: Architecture, req: Requirements | None = None) -> Architecture:
+    """A one-module board has nothing to link (every non-ground port leaves the board) and owns the whole checklist."""
     if len(arch.modules) == 1:
         m = arch.modules[0]
-        return arch.model_copy(update={"links": [], "expose": [f"{m.name}.{p.net}" for p in m.ports if p.kind != "ground"]})
+        if req is not None:
+            m = m.model_copy(update={"required": list(req.required)})
+        return arch.model_copy(update={"modules": [m], "links": [],
+                                       "expose": [f"{m.name}.{p.net}" for p in m.ports if p.kind != "ground"]})
     return arch
 
 
@@ -137,9 +149,10 @@ class Pipeline:
         self._trace("1_requirements.json", res.requirements.model_dump_json(indent=2))
         say("requirements: ok")
 
-        arch = normalise_architecture(agents.plan_architecture(self.llm, res.requirements, self.lib, self.memory))
+        arch = normalise_architecture(agents.plan_architecture(self.llm, res.requirements, self.lib, self.memory),
+                                      res.requirements)
         for attempt in range(self.max_arch_repairs):
-            problems = architecture_findings(arch)
+            problems = architecture_findings(arch, res.requirements)
             if not problems:
                 break
             say(f"architecture invalid (attempt {attempt + 1}): {len(problems)} problems")
@@ -147,9 +160,10 @@ class Pipeline:
             for f in problems:
                 say(f"    {f}")
             arch = normalise_architecture(
-                agents.plan_architecture(self.llm, res.requirements, self.lib, self.memory, problems, arch))
+                agents.plan_architecture(self.llm, res.requirements, self.lib, self.memory, problems, arch),
+                res.requirements)
         else:
-            if architecture_findings(arch):
+            if architecture_findings(arch, res.requirements):
                 say("architecture still invalid; giving up")
                 res.architecture = arch
                 return res
@@ -161,12 +175,15 @@ class Pipeline:
         for plan in arch.modules:
             module, report = None, None
             feedback: list[Finding] | None = None
+            # the checklist this module is responsible for (all of it for a one-module board)
+            module_req = res.requirements.model_copy(update={"required": plan.required or (
+                res.requirements.required if single else [])})
             queries = [plan.purpose]
             if self.scout:
-                scout = agents.scout_parts(self.llm, plan, res.requirements)
+                scout = agents.scout_parts(self.llm, plan, module_req)
                 self._trace(f"3_{plan.name}_scout.json", scout.model_dump_json(indent=2))
                 model_q = [q.query for q in scout.queries if len(q.query.split()) >= 2]  # bare labels are noise
-                queries = list(dict.fromkeys(agents.code_queries(res.requirements) + model_q)) or queries
+                queries = list(dict.fromkeys(agents.code_queries(module_req) + model_q)) or queries
                 say(f"module {plan.name}: part searches: {queries}")
                 if scout.unavailable:
                     say(f"module {plan.name}: needs a human, no library part for: {scout.unavailable}")
@@ -176,7 +193,7 @@ class Pipeline:
                 short = agents.shortlist(self.lib, self.memory, queries)
                 self._trace(f"3_{plan.name}_shortlist.txt", "\n".join(f"{p.id} | {p.description[:100]}" for p in short))
                 if short:
-                    selection = agents.select_parts(self.llm, plan, res.requirements, short)
+                    selection = agents.select_parts(self.llm, plan, module_req, short)
                     self._trace(f"3_{plan.name}_selection.json", selection.model_dump_json(indent=2))
                     parts = agents.finalist_parts(self.lib, selection, short)
                     say(f"module {plan.name}: shortlist {len(short)} ICs -> finalists "
@@ -192,14 +209,14 @@ class Pipeline:
             self._trace(f"3_{plan.name}_candidates.txt",
                         "\n".join(self.lib.summary(p) for p in parts) + "\n\nCARDS\n" + cards_text)
             built, last_patch = None, None
-            if self.stepwise and single and res.requirements.required:
-                built = self._build_stepwise(plan, res.requirements, parts, cards_text, say)
+            if self.stepwise and module_req.required:
+                built = self._build_stepwise(plan, module_req, parts, cards_text, say)
             for attempt in range(self.max_module_repairs + 1):
                 if attempt == 0 and built is not None:
                     module = built
                 elif built is not None and feedback:
                     # patch-based repair: rewriting the whole module let the model break what already worked
-                    patch = agents.design_repair(self.llm, plan, res.requirements, state_summary(module, self.lib),
+                    patch = agents.design_repair(self.llm, plan, module_req, state_summary(module, self.lib),
                                                  parts, self.lib, cards_text, feedback, last_patch)
                     module, rerrs = apply_repair(module, patch, self.lib)
                     module = module.model_copy(update={"name": plan.name})
@@ -208,15 +225,14 @@ class Pipeline:
                     if rerrs:
                         say("    repair edit had problems: " + "; ".join(str(f) for f in rerrs))
                 else:
-                    module = agents.design_module(self.llm, plan, res.requirements, self.lib, self.memory,
+                    module = agents.design_module(self.llm, plan, module_req, self.lib, self.memory,
                                                   parts, cards_text, module, feedback)
                 module = module.model_copy(update={"name": plan.name})
                 report = lint(module, self.lib, strict=self.strict, cards=self.card_map)
                 report.findings.extend(check_contract(module, plan.ports))
-                if single:  # with several modules the checklist is checked on the merged board
-                    report.findings.extend(check_coverage(module, self.lib, res.requirements.required))
+                report.findings.extend(check_coverage(module, self.lib, module_req.required))
                 if report.passed and self.review:
-                    review = agents.review_module(self.llm, res.requirements, module, self.lib, cards_text)
+                    review = agents.review_module(self.llm, module_req, module, self.lib, cards_text)
                     self._trace(f"3_{plan.name}_attempt{attempt + 1}_review.json", review.model_dump_json(indent=2))
                     report.findings.extend(agents.review_findings(review, plan.name))
                 self._trace(f"3_{plan.name}_attempt{attempt + 1}.txt",
