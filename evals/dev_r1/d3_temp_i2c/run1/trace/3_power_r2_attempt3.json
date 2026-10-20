@@ -1,0 +1,100 @@
+{
+  "reasoning": "",
+  "name": "power",
+  "description": "Provides regulated 3.3 V supply to the sensor from the header",
+  "parts": [
+    {
+      "ref": "J1",
+      "part": "Connector_Generic:Conn_01x04",
+      "value": "4-pin header"
+    },
+    {
+      "ref": "R1",
+      "part": "Device:R",
+      "value": "10k"
+    },
+    {
+      "ref": "R2",
+      "part": "Device:R",
+      "value": "10k"
+    }
+  ],
+  "nets": [
+    {
+      "name": "VIN",
+      "pins": [],
+      "voltage": 3.3,
+      "tag": null
+    },
+    {
+      "name": "VCC",
+      "pins": [
+        "R1.2",
+        "R2.2",
+        "J1.Pin_1"
+      ],
+      "voltage": 3.3,
+      "tag": "power/power_out 3.3 V"
+    },
+    {
+      "name": "GND",
+      "pins": [
+        "J1.Pin_2"
+      ],
+      "voltage": 0.0,
+      "tag": null
+    },
+    {
+      "name": "VIN 3.3 V",
+      "pins": [
+        "J1.Pin_1"
+      ],
+      "voltage": 3.3,
+      "tag": null
+    },
+    {
+      "name": "SDA",
+      "pins": [
+        "J1.Pin_3",
+        "R1.1"
+      ],
+      "voltage": null,
+      "tag": "i2c"
+    },
+    {
+      "name": "SCL",
+      "pins": [
+        "J1.Pin_4",
+        "R2.1"
+      ],
+      "voltage": null,
+      "tag": "i2c"
+    }
+  ],
+  "ports": [
+    {
+      "net": "VIN",
+      "direction": "power_in",
+      "kind": "power",
+      "voltage": 3.3,
+      "protocol": null,
+      "optional": false
+    },
+    {
+      "net": "VCC",
+      "direction": "power_out",
+      "kind": "power",
+      "voltage": 3.3,
+      "protocol": null,
+      "optional": false
+    },
+    {
+      "net": "GND",
+      "direction": "bidir",
+      "kind": "ground",
+      "voltage": null,
+      "protocol": null,
+      "optional": false
+    }
+  ]
+}

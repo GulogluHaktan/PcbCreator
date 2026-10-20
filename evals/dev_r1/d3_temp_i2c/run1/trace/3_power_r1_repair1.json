@@ -1,0 +1,55 @@
+{
+  "reasoning": "The I2C nets SDA and SCL require pull-up resistors to the logic rail (VCC). The smallest edit is to add two 4.7kΩ resistors: one from SDA to VCC, and one from SCL to VCC. These resistors are placed in series with the I2C lines as required.",
+  "parts": [
+    {
+      "ref": "R1",
+      "part": "R",
+      "value": "4.7kΩ"
+    },
+    {
+      "ref": "R2",
+      "part": "R",
+      "value": "4.7kΩ"
+    }
+  ],
+  "nets": [
+    {
+      "name": "SDA",
+      "pins": [
+        "R1.1",
+        "R1.2",
+        "J1.Pin_3"
+      ],
+      "voltage": null,
+      "tag": null
+    },
+    {
+      "name": "VCC",
+      "pins": [
+        "R1.1"
+      ],
+      "voltage": null,
+      "tag": null
+    },
+    {
+      "name": "SCL",
+      "pins": [
+        "R2.1",
+        "R2.2",
+        "J1.Pin_4"
+      ],
+      "voltage": null,
+      "tag": null
+    },
+    {
+      "name": "VCC",
+      "pins": [
+        "R2.1"
+      ],
+      "voltage": null,
+      "tag": null
+    }
+  ],
+  "remove_parts": [],
+  "remove_pins": []
+}

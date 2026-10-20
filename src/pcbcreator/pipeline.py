@@ -11,7 +11,7 @@ from dataclasses import dataclass, field
 from . import agents
 import re
 
-from .agents import Architecture, RequiredItem, Requirements
+from .agents import Architecture, ModulePlan, RequiredItem, Requirements
 from .library import Library
 from .coverage import check_coverage, request_checklist_findings
 from .describe import describe_module
@@ -35,9 +35,12 @@ class PipelineResult:
     log: list[str] = field(default_factory=list)
 
 
-def architecture_findings(arch: Architecture, req: Requirements | None = None) -> list[Finding]:
+def architecture_findings(arch: Architecture, req: Requirements | None = None, request: str = "") -> list[Finding]:
     """Cheap structural check of the plan before any module is designed."""
     out: list[Finding] = []
+    if len(arch.modules) > 1 and request and not re.search(r"\bmodules?\b", request.lower()):
+        out.append(Finding("E100", "error", f"the plan has {len(arch.modules)} modules but the request does not ask "
+                           "for separate modules", "architecture", "use ONE module for this board"))
     if req is not None and len(arch.modules) > 1:  # every checklist item must be given to some module
         for item in req.required:
             if item.kind in ("other", "support"):
@@ -68,8 +71,27 @@ def architecture_findings(arch: Architecture, req: Requirements | None = None) -
     return out
 
 
-def normalise_architecture(arch: Architecture, req: Requirements | None = None) -> Architecture:
+def collapse_modules(arch: Architecture) -> Architecture:
+    """Merge a needlessly split plan into one module: its checklist is the union, its ports are the ones that
+    reach the outside (a power port that some module produces stays internal)."""
+    produced = {p.net for m in arch.modules for p in m.ports if p.direction == "power_out"}
+    seen, ports = set(), []
+    for m in arch.modules:
+        for p in m.ports:
+            if p.net in produced or p.net in seen:
+                continue
+            seen.add(p.net)
+            ports.append(p)
+    required = [r for m in arch.modules for r in m.required]
+    name = "board"
+    merged = ModulePlan(name=name, purpose="; ".join(m.purpose for m in arch.modules), ports=ports, required=required)
+    return Architecture(modules=[merged], links=[], expose=[])
+
+
+def normalise_architecture(arch: Architecture, req: Requirements | None = None, request: str = "") -> Architecture:
     """A one-module board has nothing to link (every non-ground port leaves the board) and owns the whole checklist."""
+    if len(arch.modules) > 1 and request and not re.search(r"\bmodules?\b", request.lower()):
+        arch = collapse_modules(arch)  # the request never asked for separate modules
     if len(arch.modules) == 1:
         m = arch.modules[0]
         if req is not None:
@@ -230,9 +252,9 @@ class Pipeline:
         say("requirements: ok")
 
         arch = normalise_architecture(agents.plan_architecture(self.llm, res.requirements, self.lib, self.memory),
-                                      res.requirements)
+                                      res.requirements, request)
         for attempt in range(self.max_arch_repairs):
-            problems = architecture_findings(arch, res.requirements)
+            problems = architecture_findings(arch, res.requirements, request)
             if not problems:
                 break
             say(f"architecture invalid (attempt {attempt + 1}): {len(problems)} problems")
@@ -241,9 +263,9 @@ class Pipeline:
                 say(f"    {f}")
             arch = normalise_architecture(
                 agents.plan_architecture(self.llm, res.requirements, self.lib, self.memory, problems, arch),
-                res.requirements)
+                res.requirements, request)
         else:
-            if architecture_findings(arch, res.requirements):
+            if architecture_findings(arch, res.requirements, request):
                 say("architecture still invalid; giving up")
                 res.architecture = arch
                 return res
@@ -264,7 +286,7 @@ class Pipeline:
                 self._trace(f"3_{plan.name}_scout.json", scout.model_dump_json(indent=2))
                 model_q = [q.query for q in scout.queries if len(q.query.split()) >= 2]  # bare labels are noise
                 queries = list(dict.fromkeys(agents.code_queries(module_req) + model_q)) or queries
-                say(f"module {plan.name}: part searches: {queries}")
+                say(f"module {plan.name}: part searches: {[q[0] if isinstance(q, tuple) else q for q in queries]}")
                 if scout.unavailable:
                     say(f"module {plan.name}: needs a human, no library part for: {scout.unavailable}")
                     res.status = "needs_human"

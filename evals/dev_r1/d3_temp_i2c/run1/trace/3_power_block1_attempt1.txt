@@ -1,0 +1,25 @@
+BLOCK: connector: 4-pin header (pins: 3V3, GND, SDA, SCL).
+
+REASONING
+A 4-pin header is added to interface the power and I2C lines. Pin 1 connects to VIN (3.3 V), Pin 2 to GND, Pin 3 to SDA, and Pin 4 to SCL. These nets will be used by downstream blocks for sensor power and communication.
+
+MODULE power: Provides regulated 3.3 V supply to the sensor from the header
+
+PARTS
+  J1    Connector_Generic:Conn_01x04               4-pin header Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen
+
+NETS (pin names in brackets)
+  VIN           3.3 V: 
+  VCC           3.3 V: 
+  GND           0.0 V: J1.Pin_2[Pin_2]
+  VIN 3.3 V     3.3 V: J1.Pin_1[Pin_1]
+  SDA           tag=i2c: J1.Pin_3[Pin_3]
+  SCL           tag=i2c: J1.Pin_4[Pin_4]
+
+PORTS
+  VIN          power/power_in 3.3 V
+  VCC          power/power_out 3.3 V
+  GND          ground/bidir
+
+LOCAL LINT
+clean

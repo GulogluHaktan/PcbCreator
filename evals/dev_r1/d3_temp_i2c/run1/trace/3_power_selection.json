@@ -1,0 +1,9 @@
+{
+  "reasoning": "The module requires a 4-pin header connector with pins for 3V3, GND, SDA, and SCL. The shortlist does not contain any connector parts. Since the instructions state that generic connectors are always available and need no selection, I will directly use the required connector without selecting from the shortlist.",
+  "finalists": [
+    {
+      "id": "connector:4-pin header",
+      "role": "connector"
+    }
+  ]
+}

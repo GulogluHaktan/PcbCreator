@@ -1,0 +1,27 @@
+MODULE power: Provides regulated 3.3 V supply to the sensor from the header
+
+PARTS
+  J1    Connector_Generic:Conn_01x04               4-pin header Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen
+  R1    Device:R                                   10k      Resistor R res resistor
+  R2    Device:R                                   10k      Resistor R res resistor
+
+NETS (pin names in brackets)
+  VIN           3.3 V: 
+  VCC           3.3 V: R1.2, R2.2
+  GND           0.0 V: J1.Pin_2[Pin_2]
+  VIN 3.3 V     3.3 V: J1.Pin_1[Pin_1]
+  SDA           tag=i2c: J1.Pin_3[Pin_3], R1.1
+  SCL           tag=i2c: J1.Pin_4[Pin_4], R2.1
+
+PORTS
+  VIN          power/power_in 3.3 V
+  VCC          power/power_out 3.3 V
+  GND          ground/bidir
+
+REASONING
+
+
+LINT
+power: FAIL (1 errors, 1 warnings)
+ERROR   E025 [VCC] rail VCC (3.3 V) has no source: nothing on it can supply power (pins: R1.2, R2.2)  hint: connect these pins to the rail that is actually supplied (use the contract net, do not invent a new one)
+WARNING W080 [VIN 3.3 V] net VIN 3.3 V has a single pin and no port

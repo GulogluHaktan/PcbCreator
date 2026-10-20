@@ -1,0 +1,28 @@
+MODULE power: Provides regulated 3.3 V supply to the sensor from the header
+
+PARTS
+  J1    Connector_Generic:Conn_01x04               4-pin header Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen
+
+NETS (pin names in brackets)
+  VIN           3.3 V: 
+  VCC           3.3 V: 
+  GND           0.0 V: J1.Pin_2[Pin_2]
+  VIN 3.3 V     3.3 V: J1.Pin_1[Pin_1]
+  SDA           tag=i2c: J1.Pin_3[Pin_3]
+  SCL           tag=i2c: J1.Pin_4[Pin_4]
+
+PORTS
+  VIN          power/power_in 3.3 V
+  VCC          power/power_out 3.3 V
+  GND          ground/bidir
+
+REASONING
+
+
+LINT
+power: FAIL (2 errors, 3 warnings)
+ERROR   E050 [SDA] I2C net SDA has no pull-up resistor to a rail  hint: add a 2.2k-10k resistor from the net to the logic rail
+ERROR   E050 [SCL] I2C net SCL has no pull-up resistor to a rail  hint: add a 2.2k-10k resistor from the net to the logic rail
+WARNING W080 [VIN 3.3 V] net VIN 3.3 V has a single pin and no port
+WARNING W080 [SDA] net SDA has a single pin and no port
+WARNING W080 [SCL] net SCL has a single pin and no port

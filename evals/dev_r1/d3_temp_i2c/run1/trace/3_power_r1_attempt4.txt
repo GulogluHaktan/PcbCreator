@@ -1,0 +1,40 @@
+MODULE power: Provides regulated 3.3 V supply to the sensor from the header
+
+PARTS
+  J1    Connector_Generic:Conn_01x04               4-pin header Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen
+  R1    R                                          4.7kΩ    UNKNOWN PART
+  R2    R                                          4.7kΩ    UNKNOWN PART
+  R1    Device:R                                   4.7kΩ    Resistor R res resistor
+  R2    Device:R                                   4.7kΩ    Resistor R res resistor
+  R1    Device:R                                   4.7kΩ    Resistor R res resistor
+  R2    Device:R                                   4.7kΩ    Resistor R res resistor
+
+NETS (pin names in brackets)
+  VIN           3.3 V: 
+  VCC           3.3 V: R1.1, R2.1
+  GND           0.0 V: J1.Pin_2[Pin_2]
+  VIN 3.3 V     3.3 V: J1.Pin_1[Pin_1]
+  SDA           tag=i2c: J1.Pin_3[Pin_3], R1.1, R1.2
+  SCL           tag=i2c: J1.Pin_4[Pin_4], R2.1, R2.2
+
+PORTS
+  VIN          power/power_in 3.3 V
+  VCC          power/power_out 3.3 V
+  GND          ground/bidir
+
+REASONING
+
+
+LINT
+power: FAIL (8 errors, 3 warnings)
+ERROR   E001 [R1] unknown part 'R'  hint: use the full library id; did you mean: Device:R?
+ERROR   E001 [R2] unknown part 'R'  hint: use the full library id; did you mean: Device:R?
+ERROR   E004 [R1] duplicate reference designator R1
+ERROR   E004 [R2] duplicate reference designator R2
+ERROR   E004 [R1] duplicate reference designator R1
+ERROR   E004 [R2] duplicate reference designator R2
+ERROR   E050 [SDA] I2C net SDA has no pull-up resistor to a rail  hint: add a 2.2k-10k resistor from the net to the logic rail
+ERROR   E050 [SCL] I2C net SCL has no pull-up resistor to a rail  hint: add a 2.2k-10k resistor from the net to the logic rail
+WARNING W080 [VIN 3.3 V] net VIN 3.3 V has a single pin and no port
+WARNING W080 [SDA] net SDA has a single pin and no port
+WARNING W080 [SCL] net SCL has a single pin and no port

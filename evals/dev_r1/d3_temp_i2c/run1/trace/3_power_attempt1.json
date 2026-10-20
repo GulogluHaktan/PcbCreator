@@ -1,0 +1,84 @@
+{
+  "reasoning": "",
+  "name": "power",
+  "description": "Provides regulated 3.3 V supply to the sensor from the header",
+  "parts": [
+    {
+      "ref": "J1",
+      "part": "Connector_Generic:Conn_01x04",
+      "value": ""
+    }
+  ],
+  "nets": [
+    {
+      "name": "VIN",
+      "pins": [],
+      "voltage": 3.3,
+      "tag": null
+    },
+    {
+      "name": "VCC",
+      "pins": [],
+      "voltage": 3.3,
+      "tag": null
+    },
+    {
+      "name": "GND",
+      "pins": [
+        "J1.Pin_2"
+      ],
+      "voltage": 0.0,
+      "tag": null
+    },
+    {
+      "name": "VIN 3.3 V",
+      "pins": [
+        "J1.Pin_1"
+      ],
+      "voltage": 3.3,
+      "tag": null
+    },
+    {
+      "name": "SDA",
+      "pins": [
+        "J1.Pin_3"
+      ],
+      "voltage": null,
+      "tag": "i2c"
+    },
+    {
+      "name": "SCL",
+      "pins": [
+        "J1.Pin_4"
+      ],
+      "voltage": null,
+      "tag": "i2c"
+    }
+  ],
+  "ports": [
+    {
+      "net": "VIN",
+      "direction": "power_in",
+      "kind": "power",
+      "voltage": 3.3,
+      "protocol": null,
+      "optional": false
+    },
+    {
+      "net": "VCC",
+      "direction": "power_out",
+      "kind": "power",
+      "voltage": 3.3,
+      "protocol": null,
+      "optional": false
+    },
+    {
+      "net": "GND",
+      "direction": "bidir",
+      "kind": "ground",
+      "voltage": null,
+      "protocol": null,
+      "optional": false
+    }
+  ]
+}

@@ -20,7 +20,7 @@ def test_log_summary_counts_rules_and_rejections():
 def test_eval_runs_every_request_each_round_and_writes_summary(tmp_path):
     lib = Library()
     make = lambda trace: Pipeline(ScriptedLLM(), lib, trace_dir=trace)  # noqa: E731
-    reqs = [{"id": "a", "prompt": "fc one"}, {"id": "b", "prompt": "fc two"}]
+    reqs = [{"id": "a", "prompt": "fc one modules"}, {"id": "b", "prompt": "fc two modules"}]
     recs = run_eval(reqs, 2, tmp_path, make, lib, {"name": "t"}, draw=False, echo=lambda s: None)
     assert [(r["id"], r["run"]) for r in recs] == [("a", 1), ("b", 1), ("a", 2), ("b", 2)]
     assert all(r["status"] == "ok" and r["human_verdict"] is None for r in recs)

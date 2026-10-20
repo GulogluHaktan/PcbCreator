@@ -1,0 +1,109 @@
+{
+  "reasoning": "",
+  "modules": [
+    {
+      "name": "power",
+      "purpose": "Provides regulated 3.3 V supply to the sensor from the header",
+      "ports": [
+        {
+          "net": "VIN",
+          "direction": "power_in",
+          "kind": "power",
+          "voltage": 3.3,
+          "protocol": null,
+          "optional": false
+        },
+        {
+          "net": "VCC",
+          "direction": "power_out",
+          "kind": "power",
+          "voltage": 3.3,
+          "protocol": null,
+          "optional": false
+        },
+        {
+          "net": "GND",
+          "direction": "bidir",
+          "kind": "ground",
+          "voltage": null,
+          "protocol": null,
+          "optional": false
+        }
+      ],
+      "required": [
+        {
+          "kind": "connector",
+          "count": 1,
+          "detail": "4-pin header (pins: 3V3, GND, SDA, SCL)"
+        }
+      ]
+    },
+    {
+      "name": "sensor",
+      "purpose": "Digital I2C temperature sensor with decoupling and pull-ups",
+      "ports": [
+        {
+          "net": "VCC",
+          "direction": "power_in",
+          "kind": "power",
+          "voltage": 3.3,
+          "protocol": null,
+          "optional": false
+        },
+        {
+          "net": "GND",
+          "direction": "bidir",
+          "kind": "ground",
+          "voltage": null,
+          "protocol": null,
+          "optional": false
+        },
+        {
+          "net": "SDA",
+          "direction": "bidir",
+          "kind": "signal",
+          "voltage": null,
+          "protocol": null,
+          "optional": false
+        },
+        {
+          "net": "SCL",
+          "direction": "bidir",
+          "kind": "signal",
+          "voltage": null,
+          "protocol": null,
+          "optional": false
+        }
+      ],
+      "required": [
+        {
+          "kind": "sensor",
+          "count": 1,
+          "detail": "Digital I2C temperature sensor"
+        },
+        {
+          "kind": "support",
+          "count": 1,
+          "detail": "Supply decoupling capacitor (for the sensor's VCC pin)"
+        },
+        {
+          "kind": "support",
+          "count": 2,
+          "detail": "I2C pull-up resistors (one for SDA, one for SCL)"
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "a": "power.VIN",
+      "b": "sensor.VCC"
+    }
+  ],
+  "expose": [
+    "sensor.SDA",
+    "sensor.SCL",
+    "power.GND",
+    "sensor.GND"
+  ]
+}

@@ -1,0 +1,30 @@
+Sensor_Current:MCA1101-50-3 | High Accuracy Current Sensor IC with 1.5MHz 3dB Bandwidth and Isolation, ±50A, 3.3V Supply, Fixed Ga
+Sensor:AM2302 | 3.3 to 5.0V, Temperature and humidity module,  DHT22, AM2302 digital sensor
+Sensor_Current:MCA1101-20-3 | High Accuracy Current Sensor IC with 1.5MHz 3dB Bandwidth and Isolation, ±20A, 3.3V Supply, Fixed Ga
+Sensor_Current:MCA1101-5-3 | High Accuracy Current Sensor IC with 1.5MHz 3dB Bandwidth and Isolation, ±5A, 3.3V Supply, Fixed Gai
+Sensor:DHT11 | 3.3V to 5.5V, temperature and humidity module, DHT11 digital sensor
+Sensor_Current:ACS759xCB-100B-PFF | ±100A Bidirectional Hall-Effect Current Sensor, +3.3V supply, 13.2mV/A, CB-5 PFF hall effect current
+Sensor_Voltage:LV25-P | LEM Voltage transducer LV 25-P Voltage transducer
+Sensor_Current:ACS759xCB-200B-PFF | ±200A Bidirectional Hall-Effect Current Sensor, +3.3V supply, 6.6mV/A, CB-5 PFF hall effect current 
+Sensor_Current:MCA1101-65-5 | High Accuracy Current Sensor IC with 1.5MHz 3dB Bandwidth and Isolation, ±65A, 5V Supply, Fixed Gain
+Sensor_Current:MCA1101-50-5 | High Accuracy Current Sensor IC with 1.5MHz 3dB Bandwidth and Isolation, ±50A, 5V Supply, Fixed Gain
+Sensor_Current:ACS759xCB-050B-PFF | ±50A Bidirectional Hall-Effect Current Sensor, +3.3V supply, 26.4mV/A, CB-5 PFF hall effect current 
+Sensor_Current:ACS759xCB-150B-PFF | ±150A Bidirectional Hall-Effect Current Sensor, +3.3V supply, 8.8mV/A, CB-5 PFF hall effect current 
+Sensor_Current:ACS733xLATR-20AB | ±20A Bidirectional Hall-Effect Current Sensor, +3.3V supply, 66mV/A, SOIC-16 hall effect current mon
+Sensor_Current:MCA1101-5-5 | High Accuracy Current Sensor IC with 1.5MHz 3dB Bandwidth and Isolation, ±5A, 5V Supply, Fixed Gain,
+Sensor_Current:ACS759xCB-200B-PSS | ±200A Bidirectional Hall-Effect Current Sensor, +3.3V supply, 6.6mV/A, CB-5 PSS hall effect current 
+Sensor_Current:MCA1101-20-5 | High Accuracy Current Sensor IC with 1.5MHz 3dB Bandwidth and Isolation, ±20A, 5V Supply, Fixed Gain
+Sensor_Pressure:40PC015G | Gauge pressure sensor, 0 to 15PSI, 5V supply, 0.2% accuracy, integrated signal conditioning, excelle
+Sensor_Current:ACS726xLFTR-20B | ±20A Bidirectional Hall-Effect Current Sensor, +3.3V supply, 100mV/A, QSOP-24 hall effect current mo
+Sensor_Pressure:40PC150G | Gauge pressure sensor, 0 to 150PSI, 5V supply, 0.2% accuracy, integrated signal conditioning, excell
+Sensor_Current:ACS725xLCTR-30AB | ±30A Bidirectional Hall-Effect Current Sensor, +3.3V supply, 44mV/A, SOIC-8 hall effect current moni
+Sensor_Pressure:40PC250G | Gauge pressure sensor, 0 to 250PSI, 5V supply, 0.2% accuracy, integrated signal conditioning, excell
+Sensor_Current:ACS759xCB-150B-PSS | ±150A Bidirectional Hall-Effect Current Sensor, +3.3V supply, 8.8mV/A, CB-5 PSS hall effect current 
+Sensor_Current:ACS733xLATR-40AB | ±40A Bidirectional Hall-Effect Current Sensor, +3.3V supply, 33mV/A, SOIC-16 hall effect current mon
+Sensor_Current:ACS711xEXLT-31AB | ±31A Bidirectional, Hall-Effect Current Sensor, +3.3V supply, 45mV/A, QFN-12 hall effect current mon
+Sensor_Current:ACS726xLFTR-40B | ±40A Bidirectional Hall-Effect Current Sensor, +3.3V supply, 50mV/A, QSOP-24 hall effect current mon
+Sensor_Current:ACS781xLRTR-100B | ±100A Bidirectional Hall-Effect Current Sensor, +3.3V supply, 13.2mV/A, PSOF-7 hall effect current m
+Sensor_Current:ACS781xLRTR-150B | ±150A Bidirectional Hall-Effect Current Sensor, +3.3V supply, 8.8mV/A, PSOF-7 hall effect current mo
+Sensor_Current:ACS781xLRTR-050B | ±50A Bidirectional Hall-Effect Current Sensor, +3.3V supply, 26.4mV/A, PSOF-7 hall effect current mo
+Sensor_Current:ACS725xLCTR-20AB | ±20A Bidirectional Hall-Effect Current Sensor, +3.3V supply, 66mV/A, SOIC-8 hall effect current moni
+Sensor_Pressure:MPXA6115A | Absolute pressure sensor, 15 to 115kPa, analog output, integrated signal conditioning, temperature c

@@ -45,7 +45,7 @@ class ScriptedLLM:
 
 def test_pipeline_happy_path_stores_verified_modules(tmp_path):
     memory = DesignMemory(str(tmp_path / "chroma"))
-    res = Pipeline(ScriptedLLM(), LIB, memory).run("build a flight controller", name="fc")
+    res = Pipeline(ScriptedLLM(), LIB, memory).run("build a flight controller from modules", name="fc")
     assert res.status == "ok", res.log
     assert memory.modules.count() == 5
     got = memory.modules.get(include=["metadatas"])
@@ -56,7 +56,7 @@ def test_pipeline_happy_path_stores_verified_modules(tmp_path):
 
 def test_pipeline_repairs_from_linter_feedback():
     llm = ScriptedLLM(broken_first="imu")
-    res = Pipeline(llm, LIB).run("build a flight controller")
+    res = Pipeline(llm, LIB).run("build a flight controller from modules")
     assert res.status == "ok", res.log
     assert any("module imu: attempt 1 failed" in line for line in res.log)
     assert ("DesignedModule", True) in llm.calls  # the retry carried linter feedback
@@ -71,13 +71,13 @@ def test_pipeline_gives_up_and_stores_nothing_on_persistent_failure(tmp_path):
             return out
 
     memory = DesignMemory(str(tmp_path / "chroma"))
-    res = Pipeline(Stubborn(), LIB, memory, max_module_repairs=1, max_restarts=1).run("fc")
+    res = Pipeline(Stubborn(), LIB, memory, max_module_repairs=1, max_restarts=1).run("fc modules")
     assert res.status == "failed" and memory.modules.count() == 0
     assert any("restart 1/1" in line for line in res.log)
 
 
 def test_strict_pipeline_rejects_unverified_seed_parts():
-    res = Pipeline(ScriptedLLM(), LIB, strict=True, max_module_repairs=0).run("fc")
+    res = Pipeline(ScriptedLLM(), LIB, strict=True, max_module_repairs=0).run("fc modules")
     assert res.status == "failed"
 
 
@@ -125,7 +125,7 @@ def test_reviewer_major_issue_blocks_and_feeds_back():
             return super().complete_json(system, user, schema)
 
     llm = OneShotReviewer()
-    res = Pipeline(llm, LIB, review=True).run("fc")
+    res = Pipeline(llm, LIB, review=True).run("fc modules")
     assert res.status == "ok", res.log
     assert llm.reviews >= 2 and any("attempt 1 failed" in line for line in res.log)
 
@@ -137,5 +137,5 @@ def test_scout_unavailable_part_halts_for_a_human():
                 return PartScoutPlan(queries=[], unavailable=["quantum flux capacitor"])
             return super().complete_json(system, user, schema)
 
-    res = Pipeline(Stuck(), LIB, scout=True).run("fc")
+    res = Pipeline(Stuck(), LIB, scout=True).run("fc modules")
     assert res.status == "needs_human"

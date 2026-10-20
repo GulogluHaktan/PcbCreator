@@ -14,6 +14,7 @@ plan before it emits the structure is a large win.
 
 from __future__ import annotations
 
+import re
 from typing import Literal
 
 from pydantic import BaseModel, Field
@@ -169,13 +170,17 @@ def candidate_parts(lib: Library, memory: DesignMemory | None, queries: list[str
     return list(parts.values())
 
 
-def shortlist(lib: Library, memory: DesignMemory, queries: list[str], per_query: int = 30,
+def shortlist(lib: Library, memory: DesignMemory, queries: list, per_query: int = 30,
               cap: int = 120) -> list[PartDef]:
     """Code (no LLM): the plausible ICs/modules for the module, 100-ish out of the 22k. Results of the different
     queries are interleaved so every required function gets a share. Only category "ic" is kept: resistors,
     capacitors, LEDs and pin headers are always offered, and searching them just returns noise (XLR jacks,
     mains plugs, RGB LEDs)."""
-    lists = [[h.part_id for h in memory.search_parts(q, per_query)] for q in queries]
+    lists = []
+    for q in queries:  # a query is a string or (string, library family prefix)
+        text, family = q if isinstance(q, tuple) else (q, None)
+        hits = [h.part_id for h in memory.search_parts(text, per_query * (4 if family else 1))]
+        lists.append([h for h in hits if family is None or h.startswith(family)][:per_query])
     seen, out = set(ESSENTIAL_PARTS), []
     for rank in range(per_query):
         for hits in lists:
@@ -214,10 +219,20 @@ KIND_WORDS = {"linear_regulator": "low dropout linear voltage regulator LDO",
               "mcu": "microcontroller", "sensor": "sensor"}
 
 
-def code_queries(req: Requirements) -> list[str]:
-    """Deterministic search phrases from the requirement checklist (the model's own queries proved erratic:
-    one run searched for the bare labels 'led' and 'resistor'). Only IC-like kinds are searched."""
-    return [f"{item.detail} {KIND_WORDS[item.kind]}" for item in req.required if item.kind in KIND_WORDS]
+KIND_FAMILY = {"linear_regulator": "Regulator_Linear:", "switching_regulator": "Regulator_Switching:",
+               "mcu": "MCU_", "sensor": "Sensor"}  # KiCad library prefixes: keeps current sensors out of a temperature search
+
+
+def code_queries(req: Requirements) -> list[tuple[str, str | None]]:
+    """Deterministic (query, library family) pairs from the requirement checklist (the model's own queries proved
+    erratic: one run searched for the bare labels 'led' and 'resistor'). Only IC-like kinds are searched."""
+    out = []
+    for item in req.required:
+        if item.kind in KIND_WORDS:
+            have = set(re.findall(r"[a-z0-9.]+", item.detail.lower()))
+            extra = " ".join(w for w in KIND_WORDS[item.kind].split() if w.lower() not in have)
+            out.append((f"{item.detail} {extra}".strip(), KIND_FAMILY.get(item.kind)))
+    return out
 
 
 def scout_parts(llm: LLM, plan: ModulePlan, req: Requirements) -> PartScoutPlan:
