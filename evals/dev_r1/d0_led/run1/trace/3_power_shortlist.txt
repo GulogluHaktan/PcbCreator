@@ -1,0 +1,25 @@
+Driver_LED:STP08CP05B | 8-bit constant current LED sink driver, 5..100mA output current, 20V driving capability, 3.0..5.5V p
+Driver_LED:ST1CC40DR | 3A monolithic step-down current source with synchronous rectification, 3-18V Input Voltage, 850kHz, 
+Driver_LED:STP08CP05T | 8-bit constant current LED sink driver, 5..100mA output current, 20V driving capability, 3.0..5.5V p
+Driver_LED:STP08CP05XT | 8-bit constant current LED sink driver, 5..100mA output current, 20V driving capability, 3.0..5.5V p
+Driver_LED:ST1CC40PUR | 3A monolithic step-down current source with synchronous rectification, 3-18V Input Voltage, 850kHz, 
+Driver_LED:STP08CP05M | 8-bit constant current LED sink driver, 5..100mA output current, 20V driving capability, 3.0..5.5V p
+Driver_LED:HV9925SG-G | Programmable Current LED Lamp Driver, SO8 w/Heat Slug Programmable Current LED Lamp Driver High Volt
+Driver_LED:HV9930LG-G | Boost-Buck LED Lamp Driver, SO8 Buck-Boost LED Lamp Driver High Voltage
+Driver_LED:HV9931LG-G | PFC Boost-Buck LED Lamp Driver, SO8 Buck-Boost LED Lamp Driver High Voltage PFC
+Driver_LED:HV9972LG-G | Isolated LED Lamp Driver Constant Current, SO8 Isolated LED Lamp Driver High Voltage CC
+Driver_LED:HV9961LG-G | Buck LED Lamp Driver Average-Mode Constant Current, 8V-450V, SO8 Buck LED Lamp Driver High Voltage A
+Driver_LED:TPS92612DBV | Constant current LED Driver, 4.5V to 40V input voltage range, up to 40V/150mA output,  SOT-23-5 led 
+Driver_LED:LT3756xMSE | 100 Vin, 100 Vout, DC/DC LED Controllers, Hysteresis Open led Status pin, MSOP-16 Boost Buck Buck-Bo
+Driver_LED:LT3755xMSE | 40 Vin, 75 Vout, DC/DC LED Controllers, Hysteresis Open led Status pin, MSOP-16 Boost Buck Buck-Boos
+Driver_LED:LT3756xUD | 100 Vin, 100 Vout, DC/DC LED Controller, Hysteresis Open led Status pins, QFN-16 Boost Buck Buck-Boo
+Driver_LED:MCP1643xMS | Constant-current LED boost regulator, 0.65V startup, 550mA output, MSOP-8 LED driver low voltage
+Driver_LED:LP8868XQDMT | LED Driver Boost , Input 4.5-65V, with PWM Dimming, Automotive, VSON-14 LED Driver Boost PWM Dimming
+Driver_LED:LT3755xUD | 40 Vin, 75 Vout, DC/DC LED Controller, Hysteresis Open led Status pins, QFN-16 Boost Buck Buck-Boost
+Driver_LED:HV9967BMG-G | Buck LED Lamp Driver Average-Mode Constant Current, MSOP8 Buck LED Lamp Driver Low Voltage Average C
+Driver_LED:ZXSC400 | LED Driver Boost Converter, PFM controlled, maximum operating frequency 200kHz, SOT-23-6 Zetex LCD-b
+Driver_LED:LED1642GWXTTR | 16-channel LED driver with error detection, current gain control and 12/16 bit PWM brightness contro
+Driver_LED:LT3756xMSE-2 | 100 Vin, 100 Vout, DC/DC LED Controllers, Improved Open Led Status Pin, MSOP-16 Boost Buck Buck-Boos
+Driver_LED:LED5000 | 3A monolithic step-down current source with dimming, HSOP-8 LED buck driver
+Driver_LED:LT3756xUD-2 | 100 Vin, 100 Vout, DC/DC LED Controllers, Improved Open led Status pin, QFN-16 Boost Buck Buck-Boost
+Driver_LED:MP3362GJ | Single string LED driver, 3V to 36V input, 4A peak current limit, 200Khz to 2Mhz, SOT23-8 LED driver

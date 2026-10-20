@@ -96,3 +96,15 @@ def run_eval(requests: list[dict], runs: int, out_dir: str | Path, make_pipeline
             echo(f"[{request['id']} run{run_idx}] {rec['status']} in {rec['seconds']}s "
                  f"(block rejections {rec['block_rejections']})")
     return records
+
+
+def set_verdict(out_dir: str | Path, request_id: str, run_idx: int, verdict: bool, note: str = "") -> None:
+    """Record a human's judgement of a drawing and rebuild results.json + summary.md."""
+    out = Path(out_dir)
+    path = out / request_id / f"run{run_idx}" / "result.json"
+    rec = json.loads(path.read_text())
+    rec["human_verdict"], rec["human_note"] = bool(verdict), note
+    path.write_text(json.dumps(rec, indent=2))
+    meta = json.loads((out / "results.json").read_text())["meta"]
+    records = [json.loads(p.read_text()) for p in sorted(out.glob("*/run*/result.json"))]
+    write_summary(records, out, meta)

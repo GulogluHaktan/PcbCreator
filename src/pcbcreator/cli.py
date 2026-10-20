@@ -166,6 +166,14 @@ def cmd_eval(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_verdict(args: argparse.Namespace) -> int:
+    from .evaluate import set_verdict
+
+    set_verdict(args.dir, args.id, args.run, args.verdict.lower() in ("true", "yes", "1", "ok"), args.note)
+    print(Path(args.dir, "summary.md").read_text())
+    return 0
+
+
 def cmd_pending(args: argparse.Namespace) -> int:
     from .memory import DesignMemory, make_embedder
 
@@ -245,6 +253,10 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("requests"); p.add_argument("--runs", type=int, default=2); p.add_argument("--out", default="evals/run")
     p.add_argument("--memory", default=".pcbc/chroma"); p.add_argument("--base-url", default="http://127.0.0.1:8080")
     p.add_argument("--thinking", action="store_true"); p.set_defaults(fn=cmd_eval)
+
+    p = sub.add_parser("verdict", help="record your judgement of an evaluated drawing (true/false) and rebuild the summary")
+    p.add_argument("dir"); p.add_argument("id"); p.add_argument("run", type=int); p.add_argument("verdict")
+    p.add_argument("note", nargs="?", default=""); p.set_defaults(fn=cmd_verdict)
 
     p = sub.add_parser("pending", help="list LLM results waiting for human approval")
     p.add_argument("--memory", default=".pcbc/chroma"); p.set_defaults(fn=cmd_pending)

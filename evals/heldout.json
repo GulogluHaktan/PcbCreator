@@ -1,0 +1,14 @@
+[
+  {"id": "h0_led12",
+   "prompt": "LED board: 12 V input from a 2-pin connector, one green LED with a series current-limiting resistor for about 10 mA."},
+  {"id": "h1_ldo5",
+   "prompt": "Power board: input 12 V from a 2-pin connector, a fixed 5 V low-dropout linear regulator, a 2-pin 5 V output connector, and a blue power-indicator LED on the 5 V rail with a suitable current-limiting resistor (about 3 mA)."},
+  {"id": "h2_ldo_adj",
+   "prompt": "Power board: input 5 V from a 2-pin connector, an adjustable low-dropout linear regulator set to 3.0 V with a resistor divider, and a 2-pin 3.0 V output connector."},
+  {"id": "h3_accel_i2c",
+   "prompt": "Accelerometer breakout: powered from 3.3 V through a 4-pin header (3V3, GND, SDA, SCL), one digital 3-axis I2C accelerometer, the I2C pull-up resistors and the supply decoupling it needs."},
+  {"id": "h4_two_leds",
+   "prompt": "Indicator board: 3.3 V input from a 2-pin connector and two LEDs, one red and one green, each with its own series current-limiting resistor for about 2 mA."},
+  {"id": "h5_two_modules_baro",
+   "prompt": "Two-module sensor node. Module 'power': input 5 V from a 2-pin connector and a fixed 3.3 V low-dropout linear regulator with its capacitors. Module 'sensor': one digital I2C barometric pressure sensor with its pull-up resistors and decoupling, and a 4-pin header (3V3, GND, SDA, SCL). Keep power and sensor as two separate modules joined by the 3.3 V rail."}
+]

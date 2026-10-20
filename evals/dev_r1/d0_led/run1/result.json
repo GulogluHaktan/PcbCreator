@@ -1,0 +1,26 @@
+{
+  "id": "d0_led",
+  "run": 1,
+  "status": "ok",
+  "error": null,
+  "seconds": 215,
+  "modules": 1,
+  "human_verdict": true,
+  "requirement_kinds": [
+    "1xconnector",
+    "1xled",
+    "1xsupport"
+  ],
+  "block_rejections": 0,
+  "module_attempts_failed": 0,
+  "handed_over": false,
+  "rules": {
+    "E073": 1
+  },
+  "drawing": {
+    "style": "wires (layout variant 0)",
+    "connectivity_ok": true,
+    "png": "evals/dev_r1/d0_led/run1/schematic/d0_led.png"
+  },
+  "human_note": "series resistor in the LED path, 5.5 mA from 5 V with ~1.9 V Vf, connector has GND"
+}
