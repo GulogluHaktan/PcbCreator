@@ -9,9 +9,11 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 
 from . import agents
-from .agents import Architecture, Requirements
+import re
+
+from .agents import Architecture, RequiredItem, Requirements
 from .library import Library
-from .coverage import check_coverage
+from .coverage import check_coverage, request_checklist_findings
 from .describe import describe_module
 from .lint import Finding, Report, lint
 from .llm import LLM
@@ -195,6 +197,30 @@ class Pipeline:
                 print(line, flush=True)
 
         res.requirements = agents.elicit_requirements(self.llm, request)
+        for attempt in range(2):  # the checklist must cover every part the request names
+            gaps = request_checklist_findings(request, res.requirements)
+            if not gaps:
+                break
+            say(f"requirements incomplete (attempt {attempt + 1}): " + "; ".join(f.message for f in gaps))
+            res.requirements = agents.elicit_requirements(self.llm, request, gaps, res.requirements)
+        else:
+            gaps = request_checklist_findings(request, res.requirements)
+            if gaps:  # last resort, deterministic: add what the request plainly names
+                kinds = {"led": "led", "regulator": "linear_regulator", "sensor": "sensor", "MCU": "mcu"}
+                extra = []
+                for f in gaps:
+                    for word, kind in kinds.items():
+                        if f"'{kind}'" in f.message:
+                            extra.append(RequiredItem(kind=kind, detail=f"named in the request ({word})"))
+                    if "connector" in f.message:
+                        have = sum(r.count for r in res.requirements.required if r.kind == "connector")
+                        need = int(re.search(r"names (\d+)", f.message).group(1))
+                        extra.append(RequiredItem(kind="connector", count=need - have, detail="named in the request"))
+                if extra:
+                    say("requirements still incomplete; added from the request text: "
+                        + ", ".join(f"{e.count}x{e.kind}" for e in extra))
+                    res.requirements = res.requirements.model_copy(
+                        update={"required": res.requirements.required + extra})
         self._trace("1_requirements.json", res.requirements.model_dump_json(indent=2))
         say("requirements: ok")
 

@@ -127,14 +127,19 @@ def _findings(findings: list[Finding]) -> str:
     return "\n".join(f"- {f}" for f in findings[:30])
 
 
-def elicit_requirements(llm: LLM, request: str) -> Requirements:
+def elicit_requirements(llm: LLM, request: str, feedback: list[Finding] | None = None,
+                        previous: Requirements | None = None) -> Requirements:
     system = ("You are a hardware requirements engineer. Turn the user's request into a precise requirements record "
               "for a PCB. Be concrete about voltages and interfaces; do not invent features. In 'required', list "
               "every concrete part the request names (each connector, the regulator and its type, each LED...), "
               "one item per kind with the right count. A resistor or capacitor that only supports another part (an LED's "
               "current-limiting resistor, a regulator's capacitors) gets kind 'support', never the kind of the part "
               "it supports.")
-    return llm.complete_json(system, request, Requirements)
+    user = request
+    if feedback and previous:
+        user += (f"\n\nYour previous record:\n{previous.model_dump_json()}\nIt is incomplete:\n{_findings(feedback)}\n"
+                 "Return the corrected, complete record.")
+    return llm.complete_json(system, user, Requirements)
 
 
 def required_text(req: Requirements) -> str:

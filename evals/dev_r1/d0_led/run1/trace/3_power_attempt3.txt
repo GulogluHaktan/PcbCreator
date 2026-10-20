@@ -1,0 +1,26 @@
+MODULE power: Provides regulated 5 V from the input connector and grounds the board
+
+PARTS
+  J1    Connector_Generic:Conn_01x02               5V/GND   Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen
+  D1    LED                                        5mm Red LED 20mA 2.0V UNKNOWN PART
+  R1    R                                          940      UNKNOWN PART
+  D1    Device:LED                                 5mm Red LED 20mA 2.0V Light emitting diode LED diode
+  R1    Device:R                                   940      Resistor R res resistor
+
+NETS (pin names in brackets)
+  VIN           5.0 V  tag=power/power_in: J1.Pin_1[Pin_1], R1.1, R1.2
+  GND           0.0 V  tag=ground/bidir: J1.Pin_2[Pin_2], D1.1, D1.2
+
+PORTS
+  VIN          power/power_in 5.0 V
+  GND          ground/bidir
+
+REASONING
+
+
+LINT
+power: FAIL (4 errors, 0 warnings)
+ERROR   E001 [D1] unknown part 'LED'  hint: use the full library id; did you mean: Device:LED?
+ERROR   E001 [R1] unknown part 'R'  hint: use the full library id; did you mean: Device:R?
+ERROR   E004 [D1] duplicate reference designator D1
+ERROR   E004 [R1] duplicate reference designator R1

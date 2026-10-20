@@ -1,0 +1,20 @@
+BLOCK: connector: 2-pin connector (5 V input and GND).
+
+REASONING
+Add a 2-pin connector for the power input. Pin 1 connects to the VIN net (5 V), and Pin 2 connects to the GND net. This provides the physical interface for the regulated 5 V supply and ground connection.
+
+MODULE power: Provides regulated 5 V from the input connector and grounds the board
+
+PARTS
+  J1    Connector_Generic:Conn_01x02               5V/GND   Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen
+
+NETS (pin names in brackets)
+  VIN           5.0 V  tag=power/power_in: J1.Pin_1[Pin_1]
+  GND           0.0 V  tag=ground/bidir: J1.Pin_2[Pin_2]
+
+PORTS
+  VIN          power/power_in 5.0 V
+  GND          ground/bidir
+
+LOCAL LINT
+clean

@@ -1,0 +1,19 @@
+MODULE power: Provides regulated 5 V from the input connector and grounds the board
+
+PARTS
+  J1    Connector_Generic:Conn_01x02               5V/GND   Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen
+
+NETS (pin names in brackets)
+  VIN           5.0 V  tag=power/power_in: J1.Pin_1[Pin_1]
+  GND           0.0 V  tag=ground/bidir: J1.Pin_2[Pin_2]
+
+PORTS
+  VIN          power/power_in 5.0 V
+  GND          ground/bidir
+
+REASONING
+
+
+LINT
+power: FAIL (1 errors, 0 warnings)
+ERROR   R001 [power (reviewer)] Missing required components: The design requires one red LED and a series current-limiting resistor to provide ~5 mA illumination, but neither is present in the PARTS or NETS sections. The design only includes the connector J1 with VIN and GND nets.

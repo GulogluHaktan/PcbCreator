@@ -1,0 +1,31 @@
+{
+  "reasoning": "",
+  "summary": "5 V input via 2-pin connector; one red LED with series current-limiting resistor for ~5 mA",
+  "purpose": "Provide a single red LED illuminated at approximately 5 mA from a 5 V supply via a 2-pin connector",
+  "supply": "5 V DC",
+  "interfaces": [
+    "2-pin connector (input: 5 V, GND)"
+  ],
+  "constraints": [
+    "LED current: approximately 5 mA",
+    "LED type: red",
+    "LED driver: series current-limiting resistor"
+  ],
+  "required": [
+    {
+      "kind": "connector",
+      "count": 1,
+      "detail": "2-pin connector (5 V input and GND)"
+    },
+    {
+      "kind": "led",
+      "count": 1,
+      "detail": "red LED"
+    },
+    {
+      "kind": "support",
+      "count": 1,
+      "detail": "current-limiting resistor for red LED (5 mA)"
+    }
+  ]
+}
