@@ -1,30 +1,17 @@
-Regulator_Switching:LM2574HVM-5 | 5V, 0.5A SIMPLE SWITCHER® Step-Down Voltage Regulator, High Voltage Input, SO-8 Step-Down Voltage Re
-Regulator_Switching:LM2574HVN-5 | 5V, 0.5A SIMPLE SWITCHER® Step-Down Voltage Regulator, High Voltage Input, DIP-8 Step-Down Voltage R
-Regulator_Linear:MIC29503WT | 5A low dropout linear regulator, adjustable output, TO-220 5A LDO linear voltage regulator adjustabl
-Regulator_Linear:LDO40LPU50RY | 400mA, 3.5V-38V input, fixed positive 5V output, LDO regulator with enable, DFN-6 low-dropout-regula
-Regulator_Linear:MIC29502WT | 5A low dropout linear regulator, adjustable output, TO-220 5A LDO linear voltage regulator adjustabl
-Regulator_Switching:LM22676MR-5 | 3A Step-Down Switching Voltage Regulater, 4.5-42V Input, 5V Output, 500kHz Switching Frequency, SOIC
-Regulator_Switching:TLV62565DBVx | 2.7-V to 5.5-V input, EN Input, 1.5-A  step-down converter, SOT-23-5 high efficiency
-Regulator_Switching:TPS56528DDA | 5A Synchronous Step-Down Voltage Regulator, Adjustable Output Voltage 0.6-7V, 4.5-18V Input Voltage,
-Regulator_Linear:LDO40LPURY | 400mA, 3.5V-38V input, 2.5V-11V output, adjustable positive LDO regulator with enable, DFN-6 regulat
-Regulator_Switching:LM2574M-5 | 5V, 0.5A SIMPLE SWITCHER® Step-Down Voltage Regulator, SO-8 Step-Down Voltage Regulator 5V 500mA
-Regulator_Switching:SCT2650STE | 5A Buck Regulator, 4.5-60V input, 100kHz..1.2MHz adjustable frequency, pulse skipping mode (PSM) at 
-Regulator_Switching:MAX5035BUSA | 1A, High-Efficiency Step-Down DC-DC Converter, 5V fixed output voltage, Vin 76V, SO-8 5V 1A Step-Dow
-Regulator_Linear:LDO40LPU33RY | 400mA, 3.5V-38V input, fixed positive 3.3V output, LDO regulator with enable, DFN-6 low-dropout-regu
-Regulator_Switching:EA3058QD | 4-channel power management IC, 2.7..5.5V input, 1.5 MHz switching frequency, VQFN-24 buck-converter 
-Regulator_Switching:TLV62566DBVx | 2.7-V to 5.5-V input, PG Output, 1.5-A high efficiency step-down converter, SOT-23-5 step-down conve
-Regulator_Switching:LM2576HVT-5 | 5V, 3A SIMPLE SWITCHER® Step-Down Voltage Regulator, High Voltage Input, TO-220-5 Step-Down Voltage 
-Regulator_Switching:LM2574N-5 | 5V, 0.5A SIMPLE SWITCHER® Step-Down Voltage Regulator, DIP-8 Step-Down Voltage Regulator 5V 500mA
-Regulator_Switching:XL1509-5.0 | Buck DC/DC Converter, 2A, 5V Output Voltage, 7-40V Input Voltage Buck DC/DC Converter
-Regulator_Switching:LM2574HVM-ADJ | Adjustable Output Voltage, 0.5A SIMPLE SWITCHER® Step-Down Voltage Regulator, High Voltage Input, SO
-Regulator_Switching:MAX5035BUPA | 1A, High-Efficiency Step-Down DC-DC Converter, 5V fixed output voltage, Vin 76V, PDIP-8 5V 1A Step-D
-Regulator_Switching:LM2574HVN-ADJ | Adjustable Output Voltage, 0.5A SIMPLE SWITCHER® Step-Down Voltage Regulator, High Voltage Input, DI
-Regulator_Switching:PAM2305CGF250 | 1A, Step-Down DC/DC-Converter, 2.5V Fixed Output Voltage, 1.5MHz, DFN-6 Voltage regulator switching 
-Regulator_Switching:PAM2305CGFADJ | 1A, Step-Down DC/DC-Converter, Adjustable Output Voltage, 1.5MHz, DFN-6 Voltage regulator switching 
-Regulator_Linear:MIC29503WU | 5A low dropout linear regulator, adjustable output, TO-263 5A LDO linear voltage regulator adjustabl
-Converter_DCDC:RPMH5.0-1.5 | 1.5A non-isolated switching regulator power module, 7-60V input voltage, 5V output voltage Recom DC-
-Regulator_Linear:MIC29302AWD | 3A low dropout linear regulator, shutdown pin, 3V to 16V input voltage, 1.24V to 15V adjustable outp
-Regulator_Linear:SPX2920U-5.0_TO220 | 400mA Low drop-out regulator, Fixed Output 5V, TO-220 REGULATOR LDO 5V
-Regulator_Switching:PAM2305CGF150 | 1A, Step-Down DC/DC-Converter, 1.5V Fixed Output Voltage, 1.5MHz, DFN-6 Voltage regulator switching 
-Regulator_Switching:NID60S24-05 | 4A/20W Step Down Converter Module, fixed 5V Output Voltage, 250kHz, 20-53V Input Voltage Step-Down C
-Regulator_Switching:TPS54560BDDA | 5A, Step Down DC-DC Converter, 4.5-60V Input Voltage, Texas R-PDSO-G8 buck controller
+Regulator_Switching:LNK456D | LinkSwitch-PL Family, 6W Output Power, SO-8C LED Driver IC with TRIAC Dimming, Single-Stage PFC and 
+Regulator_Switching:LNK405LG | LinkSwitch-PH Family, 18W Output Power, eSIP-7F LED Driver IC with TRIAC Dimming, Single-Stage PFC a
+Regulator_Switching:LNK454D | LinkSwitch-PL Family, 3W Output Power, SO-8C LED Driver IC with TRIAC Dimming, Single-Stage PFC and 
+Driver_LED:LT3755xUD | 40 Vin, 75 Vout, DC/DC LED Controller, Hysteresis Open led Status pins, QFN-16 Boost Buck Buck-Boost
+Driver_LED:LT3755xUD-2 | 40 Vin, 75 Vout, DC/DC LED Controllers, Improved Open led Status pin, QFN-16 Boost Buck Buck-Boost S
+Regulator_Switching:LNK405EG | LinkSwitch-PH Family, 18W Output Power, eSIP-7C LED Driver IC with TRIAC Dimming, Single-Stage PFC a
+Driver_LED:LT3756xUD | 100 Vin, 100 Vout, DC/DC LED Controller, Hysteresis Open led Status pins, QFN-16 Boost Buck Buck-Boo
+Driver_LED:LT3756xUD-2 | 100 Vin, 100 Vout, DC/DC LED Controllers, Improved Open led Status pin, QFN-16 Boost Buck Buck-Boost
+Regulator_Switching:LNK460V | LinkSwitch-PL Family, 8W Output Power, eDIP-12B LED Driver IC with TRIAC Dimming, Single-Stage PFC a
+Regulator_Switching:LNK457D | LinkSwitch-PL Family, 8W Output Power, SO-8C LED Driver IC with TRIAC Dimming, Single-Stage PFC and 
+Regulator_Switching:LNK407LG | LinkSwitch-PH Family, 25W Output Power, eSIP-7F LED Driver IC with TRIAC Dimming, Single-Stage PFC a
+Regulator_Switching:LNK457V | LinkSwitch-PL Family, 8W Output Power, eDIP-12B LED Driver IC with TRIAC Dimming, Single-Stage PFC a
+Driver_LED:MCP1643xMS | Constant-current LED boost regulator, 0.65V startup, 550mA output, MSOP-8 LED driver low voltage
+Regulator_Switching:LNK404LG | LinkSwitch-PH Family, 15W Output Power, eSIP-7F LED Driver IC with TRIAC Dimming, Single-Stage PFC a
+Driver_LED:LT3755xMSE-2 | 40 Vin, 75 Vout, DC/DC LED Controllers, Improved Open Led Status Pin, MSOP-16 Boost Buck Buck-Boost 
+Regulator_Switching:LNK407EG | LinkSwitch-PH Family, 25W Output Power, eSIP-7C LED Driver IC with TRIAC Dimming, Single-Stage PFC a
+Regulator_Switching:LNK458V | LinkSwitch-PL Family, 8W Output Power, eDIP-12B LED Driver IC with TRIAC Dimming, Single-Stage PFC a

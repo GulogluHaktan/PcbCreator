@@ -1,0 +1,27 @@
+ERC report (2026-10-20T18:20:38, Encoding UTF8)
+Report includes: Errors, Warnings, Exclusions
+
+***** Sheet /
+[endpoint_off_grid]: Symbol pin or wire end off connection grid
+    ; warning
+    @(16.51 mm, 20.00 mm): Horizontal Wire, length 22.86 mm
+[endpoint_off_grid]: Symbol pin or wire end off connection grid
+    ; warning
+    @(16.51 mm, 20.00 mm): Vertical Wire, length 28.26 mm
+[isolated_pin_label]: Label connected to only one pin
+    ; warning
+    @(19.05 mm, 45.72 mm): Label 'VIN'
+[endpoint_off_grid]: Symbol pin or wire end off connection grid
+    ; warning
+    @(39.37 mm, 20.00 mm): Vertical Wire, length 56.20 mm
+[isolated_pin_label]: Label connected to only one pin
+    ; warning
+    @(69.85 mm, 39.37 mm): Label 'VCC'
+
+ ** ERC messages: 5  Errors 0  Warnings 5
+
+ ** Ignored checks:
+    - Global label only appears once in the schematic
+    - Four connection points are joined together
+    - SPICE model issue
+    - Assigned footprint doesn't match footprint filters

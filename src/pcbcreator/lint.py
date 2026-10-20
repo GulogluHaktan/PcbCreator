@@ -240,6 +240,23 @@ def power_nets(ctx: Ctx) -> Iterable[Finding]:
 
 
 @rule
+def rail_without_source(ctx: Ctx) -> Iterable[Finding]:
+    """A net declared as a supply rail (it has a voltage) needs something that can supply it: a power output pin, an
+    incoming power port, or a connector pin. Found in a real run: the model invented a second rail 'VCC' for the LED
+    resistor instead of using the connector's 'VIN', so the LED was never powered, and every gate passed."""
+    for net in ctx.module.nets:
+        if net.voltage is None or is_ground_net(net.name) or not ctx.net_pins.get(net.name):
+            continue
+        has_connector = any(ctx.parts[r].category == "connector" for r, _ in ctx.net_pins[net.name])
+        if ctx.is_powered(net.name) or has_connector:
+            continue
+        pins = ", ".join(f"{r}.{p.name or p.number}" for r, p in ctx.net_pins[net.name])
+        yield _f("E025", "error", f"rail {net.name} ({net.voltage} V) has no source: nothing on it can supply power "
+                 f"(pins: {pins})", net.name,
+                 "connect these pins to the rail that is actually supplied (use the contract net, do not invent a new one)")
+
+
+@rule
 def signal_drivers(ctx: Ctx) -> Iterable[Finding]:
     drivers = (PinType.output, PinType.bidir, PinType.open_drain, PinType.power_out, PinType.passive)
     for net in ctx.net_names():

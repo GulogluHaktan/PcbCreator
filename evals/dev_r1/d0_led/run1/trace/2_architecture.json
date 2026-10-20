@@ -3,11 +3,19 @@
   "modules": [
     {
       "name": "power",
-      "purpose": "Provides regulated 5 V from the input connector and grounds the board",
+      "purpose": "Provides regulated 5 V power to the LED circuit via a 2-pin connector.",
       "ports": [
         {
           "net": "VIN",
           "direction": "power_in",
+          "kind": "power",
+          "voltage": 5.0,
+          "protocol": null,
+          "optional": false
+        },
+        {
+          "net": "VCC",
+          "direction": "power_out",
           "kind": "power",
           "voltage": 5.0,
           "protocol": null,
@@ -26,32 +34,8 @@
         {
           "kind": "connector",
           "count": 1,
-          "detail": "2-pin connector (5 V input and GND)"
-        }
-      ]
-    },
-    {
-      "name": "led_driver",
-      "purpose": "Drives a red LED at approximately 5 mA from the 5 V supply",
-      "ports": [
-        {
-          "net": "VIN",
-          "direction": "power_in",
-          "kind": "power",
-          "voltage": 5.0,
-          "protocol": null,
-          "optional": false
+          "detail": "2-pin connector"
         },
-        {
-          "net": "GND",
-          "direction": "bidir",
-          "kind": "ground",
-          "voltage": null,
-          "protocol": null,
-          "optional": false
-        }
-      ],
-      "required": [
         {
           "kind": "led",
           "count": 1,
@@ -60,20 +44,14 @@
         {
           "kind": "support",
           "count": 1,
-          "detail": "current-limiting resistor for red LED (5 mA)"
+          "detail": "current-limiting resistor for the red LED"
         }
       ]
     }
   ],
-  "links": [
-    {
-      "a": "power.VIN",
-      "b": "led_driver.VIN"
-    },
-    {
-      "a": "power.GND",
-      "b": "led_driver.GND"
-    }
-  ],
-  "expose": []
+  "links": [],
+  "expose": [
+    "power.VIN",
+    "power.VCC"
+  ]
 }

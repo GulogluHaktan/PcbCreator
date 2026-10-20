@@ -1,0 +1,25 @@
+{
+  "id": "d0_led",
+  "run": 1,
+  "status": "ok",
+  "error": null,
+  "seconds": 287,
+  "modules": 1,
+  "human_verdict": null,
+  "requirement_kinds": [
+    "1xconnector",
+    "1xled",
+    "1xsupport"
+  ],
+  "block_rejections": 0,
+  "module_attempts_failed": 0,
+  "handed_over": false,
+  "rules": {
+    "E073": 2
+  },
+  "drawing": {
+    "style": "wires (layout variant 0)",
+    "connectivity_ok": true,
+    "png": "evals/dev_r1/d0_led/run1/schematic/d0_led.png"
+  }
+}

@@ -1,0 +1,25 @@
+BLOCK: connector: 2-pin connector.
+
+REASONING
+The module requires a 2-pin connector to provide regulated 5 V power to the LED circuit. The contract nets are VIN (5.0 V) and GND (0.0 V). The connector must connect its pins to these nets. Pin 1 of the connector will connect to VIN, and Pin 2 will connect to GND. This provides the external power interface for the module.
+
+MODULE power: Provides regulated 5 V power to the LED circuit via a 2-pin connector.
+
+PARTS
+  R1    Device:R                                   560      Resistor R res resistor
+  D1    Device:LED                                 red      Light emitting diode LED diode
+  J1    Connector_Generic:Conn_01x02               2-pin connector Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen
+
+NETS (pin names in brackets)
+  VIN           5.0 V  tag=power/power_in 5.0 V: J1.Pin_1[Pin_1]
+  VCC           5.0 V: R1.1
+  GND           0.0 V  tag=ground/bidir: D1.K[K], J1.Pin_2[Pin_2]
+  LED_A       : R1.2, D1.A[A]
+
+PORTS
+  VIN          power/power_in 5.0 V
+  VCC          power/power_out 5.0 V
+  GND          ground/bidir
+
+LOCAL LINT
+clean

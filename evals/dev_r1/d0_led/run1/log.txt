@@ -1,0 +1,13 @@
+requirements: ok
+architecture invalid (attempt 1): 2 problems
+    plan: {"reasoning":"","modules":[{"name":"power","purpose":"Provides regulated 5 V power to the LED circuit via a 2-pin connector.","ports":[{"net":"VIN","direction":"in","kind":"power","voltage":5.0,"protocol":null,"optional":false},{"net":"VCC","direction":"out","kind":"power","voltage":5.0,"protocol":null,"optional":false},{"net":"GND","direction":"bidir","kind":"ground","voltage":null,"protocol":null,"optional":false}],"required":[{"kind":"connector","count":1,"detail":"2-pin connector"},{"kind":"led","count":1,"detail":"red LED"},{"kind":"support","count":1,"detail":"current-limiting resistor for the red LED"}]}],"links":[],"expose":["power.VIN","power.VCC"]}
+    ERROR   E073 [power.VIN] power port power.VIN must use direction power_in/power_out and have a voltage
+    ERROR   E073 [power.VCC] power port power.VCC must use direction power_in/power_out and have a voltage
+architecture: ['power']
+module power: part searches: ['Provides regulated 5 V power to the LED circuit via a 2-pin connector.']
+module power: shortlist 17 ICs -> finalists []
+block 1/2 [led]: ok (attempt 1)
+block 2/2 [connector]: ok (attempt 1)
+module power: ok (0 warnings)
+merge: ok
+stored 1 verified modules and 2 blocks in memory
