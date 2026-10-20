@@ -42,7 +42,7 @@ def test_part_card_is_extracted_once_and_cached(tmp_path):
             FakeLLM.calls += 1
             assert "Dropout voltage is 250 mV" in user  # the datasheet passage reached the prompt
             return PartCard(part_type="linear regulator (LDO)", vin_min=3.8, vin_max=6.0, vout=3.3,
-                            required_external_parts=["1uF input capacitor"])
+                            required_external_parts=["1uF input capacitor"], confirmed=True)  # the model lies
 
     mem = DesignMemory(str(tmp_path / "c"))
     ds = DatasheetStore(mem, tmp_path / "pdf")
@@ -51,3 +51,4 @@ def test_part_card_is_extracted_once_and_cached(tmp_path):
     c1, c2 = store.get(part), store.get(part)
     assert FakeLLM.calls == 1 and c1 == c2
     assert "Vin 3.8-6.0 V" in c1.one_line(part.id) and "[unconfirmed]" in c1.one_line(part.id)
+    assert c1.confirmed is False  # a model-set confirmation is discarded

@@ -14,7 +14,7 @@ Model problemi bir bütün olarak görmez: gereksinim kontrol listesi işlevsel 
 
 | Problem | Yöntem | Donanım / araçlar | Makale |
 |---|---|---|---|
-| Tek seferde LLM şematik üretimi, makul görünen ama elektriksel olarak yanlış ya da isteği yok sayan tasarımlar çıkarıyor | Gereksinim listesinden adım adım blok kurma, 22.740 KiCad parçasından aday listesi, datasheet parça kartları, blok başına yerel lint, yama tabanlı onarım, LLM gözden geçirici, KiCad ERC | RTX 5060 8 GB üzerinde Ternary Bonsai 27B (PrismML llama.cpp çatalı), KiCad 10.0.7, Chroma | TODO: `paper/` (rapor henüz yazılmadı) |
+| Tek seferde LLM şematik üretimi, makul görünen ama elektriksel olarak yanlış ya da isteği yok sayan tasarımlar çıkarıyor | Gereksinim listesinden adım adım blok kurma, 22.740 KiCad parçasından aday listesi, datasheet parça kartları, blok başına yerel lint, yama tabanlı onarım, LLM gözden geçirici, KiCad ERC | RTX 5060 8 GB üzerinde Ternary Bonsai 27B (PrismML llama.cpp çatalı), KiCad 10.0.7, Chroma | [`paper/yontem.pdf`](paper/yontem.pdf) (yöntem raporu) |
 
 ### Sistem mimarisi
 
@@ -145,6 +145,7 @@ Her deneme `out/trace/` altına yazılır (gereksinimler, aday listesi, seçim, 
 | `plots/sonuc_1.png` (Sonuç 1) | `uv run pcbc render results/ldo_board.module.json --out /tmp/r1` |
 | `plots/sonuc_2.png` (Sonuç 2) | `uv run pcbc render results/lint_clean_but_wrong.module.json --out /tmp/r2` |
 | `assets/architecture.png` | `python3 scripts/make_architecture.py` |
+| `paper/yontem.pdf` | `python3 scripts/make_report.py` (google-chrome-stable gerekir) |
 | Linter / birleştirme / adım adım / onarım davranışı | `uv run pytest` |
 
 `results/` içindeki iki modül dosyası, gösterilen çalıştırmalardaki modelin çıktısıdır. `pcbc design`'ı yeniden çalıştırmak farklı (birebir aynı olmayan) tasarımlar verir, çünkü yerel model 0.3 sıcaklıkta örnekleme yapar.
@@ -156,7 +157,7 @@ PcbCreator/
 ├── assets/        # README görselleri (demo şematik, mimari)
 ├── plots/         # sonuç şekilleri (üretilen tasarımların KiCad çizimleri)
 ├── results/       # yukarıda gösterilen tasarımların modül JSON dosyaları
-├── paper/         # TODO: proje raporu (henüz yazılmadı)
+├── paper/         # yontem.tex / yontem.pdf: yöntem raporu; scripts/make_report.py ile üretilir
 ├── scripts/       # serve.sh (yerel model), check_install.py, make_architecture.py
 ├── src/pcbcreator/
 │   ├── models.py        # Module / Net / Port / Design (tüm LLM çıktısı doğrulanan JSON'dur, çalıştırılan kod değil)

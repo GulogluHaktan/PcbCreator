@@ -14,7 +14,7 @@ The model never sees the whole problem at once: a requirement checklist is turne
 
 | Problem | Method | Hardware / tools | Paper |
 |---|---|---|---|
-| One-shot LLM schematic generation produces designs that look plausible but are electrically wrong or ignore the request | Stepwise block construction from a requirement checklist, part shortlist from 22,740 KiCad parts, datasheet part cards, local lint per block, patch-based repair, LLM reviewer, KiCad ERC | Ternary Bonsai 27B (PrismML llama.cpp fork) on an RTX 5060 8 GB, KiCad 10.0.7, Chroma | TODO: `paper/` (the report is not written yet) |
+| One-shot LLM schematic generation produces designs that look plausible but are electrically wrong or ignore the request | Stepwise block construction from a requirement checklist, part shortlist from 22,740 KiCad parts, datasheet part cards, local lint per block, patch-based repair, LLM reviewer, KiCad ERC | Ternary Bonsai 27B (PrismML llama.cpp fork) on an RTX 5060 8 GB, KiCad 10.0.7, Chroma | [`paper/yontem.pdf`](paper/yontem.pdf) (method report, Turkish) |
 
 ### System architecture
 
@@ -145,6 +145,7 @@ Every attempt is written to `out/trace/` (requirements, shortlist, selection, ea
 | `plots/sonuc_1.png` (Result 1) | `uv run pcbc render results/ldo_board.module.json --out /tmp/r1` |
 | `plots/sonuc_2.png` (Result 2) | `uv run pcbc render results/lint_clean_but_wrong.module.json --out /tmp/r2` |
 | `assets/architecture.png` | `python3 scripts/make_architecture.py` |
+| `paper/yontem.pdf` | `python3 scripts/make_report.py` (needs google-chrome-stable) |
 | Linter / merge / stepwise / repair behaviour | `uv run pytest` |
 
 The two module files in `results/` are the model's output from the runs shown. Re-running `pcbc design` gives different (non-identical) designs because the local model samples at temperature 0.3.
@@ -156,7 +157,7 @@ PcbCreator/
 ├── assets/        # README figures (demo schematic, architecture)
 ├── plots/         # result figures (KiCad renders of generated designs)
 ├── results/       # module JSON of the generated designs shown above
-├── paper/         # TODO: project report (not written yet)
+├── paper/         # yontem.tex / yontem.pdf: method report (Turkish); built by scripts/make_report.py
 ├── scripts/       # serve.sh (local model), check_install.py, make_architecture.py
 ├── src/pcbcreator/
 │   ├── models.py        # Module / Net / Port / Design (all LLM output is validated JSON, never executed code)
