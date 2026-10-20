@@ -1,0 +1,10 @@
+{
+  "reasoning": "",
+  "queries": [
+    {
+      "query": "linear regulator 1.8V fixed low dropout",
+      "why": "The module requires a fixed 1.8V output from a 3.3V input, specified as a low-dropout linear regulator to minimize voltage loss and heat generation."
+    }
+  ],
+  "unavailable": []
+}

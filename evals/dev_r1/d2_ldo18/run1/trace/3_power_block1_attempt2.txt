@@ -1,0 +1,26 @@
+BLOCK: linear_regulator: Fixed 1.8V low-dropout linear regulator. Include its input and output capacitors and tie any enable pin as the datasheet card says in this block.
+
+REASONING
+The SPX3819M5-L-1-8 is a fixed 1.8V LDO regulator. Pin 1 (IN) connects to VIN, Pin 2 (GND) to GND, Pin 5 (OUT) to VOUT. Pin 3 (EN) is the enable pin; per typical LDO datasheets, if not specified otherwise, it should be tied to the input rail (VIN) to enable regulation. Pin 4 (BP) is a bypass pin; if unused, it should be left unconnected (NC). A 100nF decoupling capacitor is required on the output pin (Pin 5) to GND. An input capacitor is also recommended for stability; a 1uF capacitor from VIN to GND is standard. The LED is yellow, connected to VOUT, with a series resistor to limit current to ~1mA. Assuming a typical yellow LED forward voltage of 2.0V, the resistor value is (1.8V - 2.0V) which is negative, so we must assume a lower Vf or adjust. However, the constraint says LED current must be approximately 1mA and connected to 1.8V rail. A typical yellow LED has Vf ~1.8-2.0V. If Vf=1.8V, then R=(1.8-1.8)/0.001=0, which is not practical. If we assume Vf=1.5V (some yellow LEDs), R=(1.8-1.5)/0.001=300 ohms. But standard yellow LEDs are often 2.0V. However, the problem says 
+
+MODULE power: Regulate 3.3V to 1.8V and drive a yellow power indicator LED
+
+PARTS
+  U1    Regulator_Linear:SPX3819M5-L-1-8                    500mA Low drop-out regulator, Fixed Output 1.8V, SOT-23-5 REGULATOR LDO 1.8V  [pins: IN, GND, EN, BP, OUT]
+  C1    Device:C                                   1uF      Unpolarized capacitor cap capacitor
+  C2    Device:C                                   100nF    Unpolarized capacitor cap capacitor
+  R1    Device:R                                   300      Resistor R res resistor
+  D1    Device:LED                                 yellow   Light emitting diode LED diode
+
+NETS (pin names in brackets)
+  VIN           3.3 V: U1.IN[IN], C1.1
+  VOUT          1.8 V: U1.OUT[OUT], C2.1, R1.1, D1.A[A]
+  GND         : U1.GND[GND], C1.2, C2.2, R1.2, D1.K[K]
+
+PORTS
+  VIN          power/power_in 3.3 V
+  VOUT         power/power_out 1.8 V
+  GND          ground/bidir
+
+LOCAL LINT
+ERROR   E205 [D1] D1 (led) belongs to the 'led' block, not to the 'linear_regulator' block  hint: leave it out; it is added in its own step

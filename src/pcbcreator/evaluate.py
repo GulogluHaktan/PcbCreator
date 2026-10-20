@@ -92,7 +92,8 @@ def run_eval(requests: list[dict], runs: int, out_dir: str | Path, make_pipeline
         for request in requests:
             rec = run_one(request, run_idx, out, make_pipeline, lib, draw)
             records.append(rec)
-            write_summary(records, out, meta)
+            # the summary covers every result on disk, so partial re-runs (--only) add to earlier ones
+            write_summary([json.loads(p.read_text()) for p in sorted(out.glob("*/run*/result.json"))], out, meta)
             echo(f"[{request['id']} run{run_idx}] {rec['status']} in {rec['seconds']}s "
                  f"(block rejections {rec['block_rejections']})")
     return records

@@ -115,9 +115,12 @@ class Pipeline:
             patch, feedback = None, None
             examples = agents.block_examples_context(self.memory, block, 2, self.exclude_example_origins)
             self._trace(f"3_{plan.name}_block{k}_examples.txt", examples)
+            others = [b.title for b in blocks if b is not block]
             for attempt in range(1, self.max_block_attempts + 1):
+                # the same complaint again and again means the sample is stuck: sample hotter (adaptive temperature)
+                self._set_temperature(min(1.0, self._base_t + 0.15 * (attempt - 1)))
                 patch = agents.design_block(self.llm, plan, req, block, state_summary(state, self.lib), parts,
-                                            self.lib, cards_text, patch, feedback, examples)
+                                            self.lib, cards_text, patch, feedback, examples, others)
                 new_state, errs = apply_patch(state, patch)
                 errs = errs or scope_findings(patch, block, self.lib, owned) or local_findings(new_state, patch, self.lib,
                                                                                     self.card_map)
@@ -126,11 +129,13 @@ class Pipeline:
                             + describe_module(new_state, self.lib) + "\n\nLOCAL LINT\n"
                             + ("\n".join(map(str, errs)) or "clean"))
                 if not errs:
+                    self._set_temperature(self._base_t)
                     state = new_state
                     self.accepted_blocks.append((block, patch))
                     say(f"block {k}/{len(blocks)} [{block.title}]: ok (attempt {attempt})")
                     break
                 feedback = errs
+                self._set_temperature(self._base_t)
                 say(f"block {k}/{len(blocks)} [{block.title}]: attempt {attempt} rejected with {len(errs)} issues")
                 for f in errs:
                     say(f"    {f}")

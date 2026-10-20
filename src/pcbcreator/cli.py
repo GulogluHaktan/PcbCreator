@@ -149,6 +149,8 @@ def cmd_eval(args: argparse.Namespace) -> int:
     from .pipeline import Pipeline
 
     requests = json.loads(Path(args.requests).read_text())
+    if args.only:
+        requests = [r for r in requests if r["id"] in args.only.split(",")]
     memory = DesignMemory(args.memory, make_embedder(args.embedder))
     lib = KicadLibrary()
     llm = LlamaServerClient(base_url=args.base_url, thinking=args.thinking)
@@ -252,7 +254,8 @@ def main(argv: list[str] | None = None) -> int:
     p = sub.add_parser("eval", help="run a list of requests several times and summarise (gate pass vs human verdict)")
     p.add_argument("requests"); p.add_argument("--runs", type=int, default=2); p.add_argument("--out", default="evals/run")
     p.add_argument("--memory", default=".pcbc/chroma"); p.add_argument("--base-url", default="http://127.0.0.1:8080")
-    p.add_argument("--thinking", action="store_true"); p.set_defaults(fn=cmd_eval)
+    p.add_argument("--thinking", action="store_true"); p.add_argument("--only", help="comma-separated request ids")
+    p.set_defaults(fn=cmd_eval)
 
     p = sub.add_parser("verdict", help="record your judgement of an evaluated drawing (true/false) and rebuild the summary")
     p.add_argument("dir"); p.add_argument("id"); p.add_argument("run", type=int); p.add_argument("verdict")

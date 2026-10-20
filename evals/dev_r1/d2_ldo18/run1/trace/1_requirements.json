@@ -1,0 +1,42 @@
+{
+  "reasoning": "",
+  "summary": "Power board with 3.3V input, 1.8V LDO output, and power indicator LED",
+  "purpose": "Provide regulated 1.8V power from a 3.3V source with status indication",
+  "supply": "3.3V",
+  "interfaces": [
+    "2-pin connector (input, 3.3V)",
+    "2-pin connector (output, 1.8V)"
+  ],
+  "constraints": [
+    "Regulator must be a fixed 1.8V low-dropout linear regulator",
+    "LED must be yellow and connected to the 1.8V rail",
+    "LED current must be approximately 1 mA"
+  ],
+  "required": [
+    {
+      "kind": "connector",
+      "count": 1,
+      "detail": "2-pin input connector (3.3V)"
+    },
+    {
+      "kind": "connector",
+      "count": 1,
+      "detail": "2-pin output connector (1.8V)"
+    },
+    {
+      "kind": "linear_regulator",
+      "count": 1,
+      "detail": "Fixed 1.8V low-dropout linear regulator"
+    },
+    {
+      "kind": "led",
+      "count": 1,
+      "detail": "Yellow power-indicator LED on 1.8V rail"
+    },
+    {
+      "kind": "support",
+      "count": 1,
+      "detail": "Current-limiting resistor for yellow LED (approx. 1 mA)"
+    }
+  ]
+}

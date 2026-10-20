@@ -1,0 +1,10 @@
+Device:R [passive] Resistor R res resistor | footprint Resistor_SMD:R_0805_2012Metric | pins: 1:(passive), 2:(passive)
+Device:C [passive] Unpolarized capacitor cap capacitor | footprint Capacitor_SMD:C_0805_2012Metric | pins: 1:(passive), 2:(passive)
+Device:LED [passive] Light emitting diode LED diode | footprint LED_SMD:LED_0805_2012Metric | pins: 1:K(passive), 2:A(passive)
+Connector_Generic:Conn_01x02 [connector] Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/) connector | footprint Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical | pins: 1:Pin_1(passive), 2:Pin_2(passive)
+Connector_Generic:Conn_01x03 [connector] Generic connector, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/) connector | footprint Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical | pins: 1:Pin_1(passive), 2:Pin_2(passive), 3:Pin_3(passive)
+Connector_Generic:Conn_01x04 [connector] Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/) connector | footprint Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical | pins: 1:Pin_1(passive), 2:Pin_2(passive), 3:Pin_3(passive), 4:Pin_4(passive)
+Regulator_Linear:SPX3819M5-L-1-8 [ic] 500mA Low drop-out regulator, Fixed Output 1.8V, SOT-23-5 REGULATOR LDO 1.8V | footprint Package_TO_SOT_SMD:SOT-23-5 | pins: 1:IN(power_in), 2:GND(ground), 3:EN(input), 4:BP(input), 5:OUT(power_out)
+
+CARDS
+Regulator_Linear:SPX3819M5-L-1-8: no datasheet card (datasheet unreachable); rely on the pin list and be conservative

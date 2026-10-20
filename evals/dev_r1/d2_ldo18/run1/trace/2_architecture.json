@@ -1,0 +1,67 @@
+{
+  "reasoning": "",
+  "modules": [
+    {
+      "name": "power",
+      "purpose": "Regulate 3.3V to 1.8V and drive a yellow power indicator LED",
+      "ports": [
+        {
+          "net": "VIN",
+          "direction": "power_in",
+          "kind": "power",
+          "voltage": 3.3,
+          "protocol": null,
+          "optional": false
+        },
+        {
+          "net": "VOUT",
+          "direction": "power_out",
+          "kind": "power",
+          "voltage": 1.8,
+          "protocol": null,
+          "optional": false
+        },
+        {
+          "net": "GND",
+          "direction": "bidir",
+          "kind": "ground",
+          "voltage": null,
+          "protocol": null,
+          "optional": false
+        }
+      ],
+      "required": [
+        {
+          "kind": "connector",
+          "count": 1,
+          "detail": "2-pin input connector (3.3V)"
+        },
+        {
+          "kind": "connector",
+          "count": 1,
+          "detail": "2-pin output connector (1.8V)"
+        },
+        {
+          "kind": "linear_regulator",
+          "count": 1,
+          "detail": "Fixed 1.8V low-dropout linear regulator"
+        },
+        {
+          "kind": "led",
+          "count": 1,
+          "detail": "Yellow power-indicator LED on 1.8V rail"
+        },
+        {
+          "kind": "support",
+          "count": 1,
+          "detail": "Current-limiting resistor for yellow LED (approx. 1 mA)"
+        }
+      ]
+    }
+  ],
+  "links": [],
+  "expose": [
+    "power.VIN",
+    "power.VOUT"
+  ]
+}
