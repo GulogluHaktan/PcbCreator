@@ -343,6 +343,8 @@ def review_module(llm: LLM, req: Requirements, module: Module, lib: Library, car
     system = ("You are a senior hardware reviewer. The design already passed the electrical linter; your job is to "
               "find what the linter cannot see. Check each item: (1) every required part is present and of the right "
               "TYPE (linear vs switching regulator); (2) the support circuitry the datasheet card requires is there; "
+              "datasheets cover several package variants, so judge only the pins listed for each part in the design "
+              "text and ignore datasheet remarks about pins that part does not have; "
               "(3) component values are plausible, showing the arithmetic (LED current = (supply - Vf) / R); "
               "(4) connectors expose the right nets. Report only real problems with specific refs and nets; "
               "do not invent problems. verdict is 'fail' only if there is at least one major issue.")

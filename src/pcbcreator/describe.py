@@ -11,7 +11,10 @@ def describe_module(module: Module, lib: Library) -> str:
     for inst in module.parts:
         part = lib.get(inst.part)
         what = (part.description[:90] if part else "UNKNOWN PART")
-        lines.append(f"  {inst.ref:<5} {inst.part:<42} {inst.value or '':<8} {what}")
+        pins = ""
+        if part and part.category == "ic":  # datasheets cover several package variants: show what THIS part has
+            pins = "  [pins: " + ", ".join(p.name or p.number for p in part.pins) + "]"
+        lines.append(f"  {inst.ref:<5} {inst.part:<42} {inst.value or '':<8} {what}{pins}")
     lines += ["", "NETS (pin names in brackets)"]
     for net in module.nets:
         pins = []
