@@ -5,7 +5,7 @@
   "error": null,
   "seconds": 287,
   "modules": 1,
-  "human_verdict": null,
+  "human_verdict": false,
   "requirement_kinds": [
     "1xconnector",
     "1xled",
@@ -21,5 +21,6 @@
     "style": "wires (layout variant 0)",
     "connectivity_ok": true,
     "png": "evals/dev_r1/d0_led/run1/schematic/d0_led.png"
-  }
+  },
+  "human_note": "R1 hangs on an invented rail VCC that nothing supplies; the LED is never powered (J1 pin 1 is on VIN alone). Passed all gates; rule E025 added afterwards"
 }

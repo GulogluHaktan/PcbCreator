@@ -1,0 +1,28 @@
+BLOCK: linear_regulator: Fixed 3.3 V low-dropout linear regulator. Include its input and output capacitors and tie any enable pin as the datasheet card says in this block.
+
+REASONING
+A fixed-output linear regulator (LP38693DT-3.3) is added to step down 5 V to 3.3 V. It has three pins: IN (power_in), OUT (power_out), and GND (ground). Per datasheet, Cin >= 1.0 uF is required on the input side. A 100 nF decoupling capacitor is placed on the output rail (OUT) to GND as required for every IC power pin. The output net VOUT is connected to the regulator's OUT pin. The input net VIN is connected to the regulator's IN pin. GND is connected to the regulator's GND pin. No enable pin is present in this part's pinout, so nothing to tie. An LED with a current-limiting resistor is added on the 3.3 V rail: rail (VOUT) -> resistor -> LED anode, LED cathode -> GND. For ~2 mA at 3.3 V, R = (3.3 - 2.0) / 0.002 = 650 Ω, so 680 Ω is chosen. The LED is connected to VOUT via R1, and its cathode to GND. A 100 nF decoupling capacitor is added on the regulator's IN pin to GND as required for every IC power pin. The output capacitor C2 is 1.0 uF as per datasheet requirement. The input capacitor C1 is 1.0 uF as per datasheet requirement. The output decoupling capacitor C3 is 100 nF as required for the IC power pin. The input decoupling capacitor C4 is 100 nF as required for the IC power pin. The LED current-limiting resistor R1 is 680 Ω. The LED D1 is connected to VOUT via R1 and to GND. The net VOUT is connected to the regulator's OUT pin and to the LED circuit. The net VIN is connected to the regulator's IN pin. The net GND is connected to the regulator's GND pin, the LED cathode, and all capacitor grounds.
+
+MODULE power: Step down 5 V input to regulated 3.3 V output and provide a green power-indicator LED on the 3.3 V rail.
+
+PARTS
+  U1    Regulator_Linear:LP38693DT-3.3                      500-mA Low-Dropout CMOS Linear Regulators Stable With Ceramic Output Capacitors, 3.3V outp  [pins: OUT, GND, IN]
+  C1    Device:C                                   1uF      Unpolarized capacitor cap capacitor
+  C2    Device:C                                   1uF      Unpolarized capacitor cap capacitor
+  C3    Device:C                                   100nF    Unpolarized capacitor cap capacitor
+  C4    Device:C                                   100nF    Unpolarized capacitor cap capacitor
+  R1    Device:R                                   680      Resistor R res resistor
+  D1    Device:LED                                          Light emitting diode LED diode
+
+NETS (pin names in brackets)
+  VIN           5.0 V: U1.IN[IN], C1.1, C4.1
+  VOUT          3.3 V: U1.OUT[OUT], C2.1, C3.1, R1.1, D1.2[A]
+  GND           0.0 V: U1.GND[GND], C1.2, C2.2, C3.2, C4.2, R1.2, D1.1[K]
+
+PORTS
+  VIN          power/power_in 5.0 V
+  VOUT         power/power_out 3.3 V
+  GND          ground/bidir
+
+LOCAL LINT
+ERROR   E205 [D1] D1 (led) belongs to the 'led' block, not to the 'linear_regulator' block  hint: leave it out; it is added in its own step

@@ -1,0 +1,26 @@
+BLOCK: linear_regulator: Fixed 3.3 V low-dropout linear regulator. Include its input and output capacitors and tie any enable pin as the datasheet card says in this block.
+
+REASONING
+A fixed-output linear regulator (LP38693DT-3.3) is added to step down 5 V to 3.3 V. It has three pins: IN (power_in), OUT (power_out), and GND (ground). Per datasheet, Cin >= 1.0 uF is required on the input side. A 100 nF decoupling capacitor is placed on the output rail (OUT) to GND as required for every IC power pin. The output net VOUT is connected to the regulator's OUT pin. The input net VIN is connected to the regulator's IN pin. GND is connected to the regulator's GND pin. No enable pin is present in this part's pinout, so nothing to tie. The LED and its current-limiting resistor are excluded from this block as they belong to the 'led' block, which will be added in its own step. An input decoupling capacitor C4 is added on the regulator's IN pin to GND as required for every IC power pin. The output capacitor C2 is 1.0 uF as per datasheet requirement. The input capacitor C1 is 1.0 uF as per datasheet requirement. The output decoupling capacitor C3 is 100 nF as required for the IC power pin. The input decoupling capacitor C4 is 100 nF as required for the IC power pin.
+
+MODULE power: Step down 5 V input to regulated 3.3 V output and provide a green power-indicator LED on the 3.3 V rail.
+
+PARTS
+  U1    Regulator_Linear:LP38693DT-3.3                      500-mA Low-Dropout CMOS Linear Regulators Stable With Ceramic Output Capacitors, 3.3V outp  [pins: OUT, GND, IN]
+  C1    Device:C                                   1uF      Unpolarized capacitor cap capacitor
+  C2    Device:C                                   1uF      Unpolarized capacitor cap capacitor
+  C3    Device:C                                   100nF    Unpolarized capacitor cap capacitor
+  C4    Device:C                                   100nF    Unpolarized capacitor cap capacitor
+
+NETS (pin names in brackets)
+  VIN           5.0 V: U1.IN[IN], C1.1, C4.1
+  VOUT          3.3 V: U1.OUT[OUT], C2.1, C3.1
+  GND           0.0 V: U1.GND[GND], C1.2, C2.2, C3.2, C4.2
+
+PORTS
+  VIN          power/power_in 5.0 V
+  VOUT         power/power_out 3.3 V
+  GND          ground/bidir
+
+LOCAL LINT
+clean

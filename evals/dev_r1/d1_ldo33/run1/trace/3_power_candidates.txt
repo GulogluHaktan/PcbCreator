@@ -1,0 +1,10 @@
+Device:R [passive] Resistor R res resistor | footprint Resistor_SMD:R_0805_2012Metric | pins: 1:(passive), 2:(passive)
+Device:C [passive] Unpolarized capacitor cap capacitor | footprint Capacitor_SMD:C_0805_2012Metric | pins: 1:(passive), 2:(passive)
+Device:LED [passive] Light emitting diode LED diode | footprint LED_SMD:LED_0805_2012Metric | pins: 1:K(passive), 2:A(passive)
+Connector_Generic:Conn_01x02 [connector] Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/) connector | footprint Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical | pins: 1:Pin_1(passive), 2:Pin_2(passive)
+Connector_Generic:Conn_01x03 [connector] Generic connector, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/) connector | footprint Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical | pins: 1:Pin_1(passive), 2:Pin_2(passive), 3:Pin_3(passive)
+Connector_Generic:Conn_01x04 [connector] Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/) connector | footprint Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical | pins: 1:Pin_1(passive), 2:Pin_2(passive), 3:Pin_3(passive), 4:Pin_4(passive)
+Regulator_Linear:LP38693DT-3.3 [ic] 500-mA Low-Dropout CMOS Linear Regulators Stable With Ceramic Output Capacitors, 3.3V output voltage, TO-252 LDO Linear Regulator | footprint Package_TO_SOT_SMD:TO-252-2 | pins: 1:OUT(power_out), 2:GND(ground), 3:IN(power_in)
+
+CARDS
+Regulator_Linear:LP38693DT-3.3: Regulator_Linear | Cin >= 1.0 uF | pins: 1:OUT; 2:GND; 3:IN  [unconfirmed]

@@ -1,0 +1,31 @@
+BLOCK: connector: 2-pin connector for 3.3 V output.
+
+REASONING
+A 2-pin connector is added to provide the regulated 3.3 V output and ground. Pin_1 connects to the VOUT net (3.3 V) and Pin_2 connects to the GND net. This allows external components to be connected to the regulated output rail.
+
+MODULE power: Step down 5 V input to regulated 3.3 V output and provide a green power-indicator LED on the 3.3 V rail.
+
+PARTS
+  U1    Regulator_Linear:LP38693DT-3.3                      500-mA Low-Dropout CMOS Linear Regulators Stable With Ceramic Output Capacitors, 3.3V outp  [pins: OUT, GND, IN]
+  C1    Device:C                                   1uF      Unpolarized capacitor cap capacitor
+  C2    Device:C                                   1uF      Unpolarized capacitor cap capacitor
+  C3    Device:C                                   100nF    Unpolarized capacitor cap capacitor
+  C4    Device:C                                   100nF    Unpolarized capacitor cap capacitor
+  R1    Device:R                                   680      Resistor R res resistor
+  D1    Device:LED                                 green    Light emitting diode LED diode
+  J1    Connector_Generic:Conn_01x02                        Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen
+  J2    Connector_Generic:Conn_01x02                        Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen
+
+NETS (pin names in brackets)
+  VIN           5.0 V: U1.IN[IN], C1.1, C4.1, J1.Pin_1[Pin_1]
+  VOUT          3.3 V: U1.OUT[OUT], C2.1, C3.1, R1.1, J2.Pin_1[Pin_1]
+  GND           0.0 V: U1.GND[GND], C1.2, C2.2, C3.2, C4.2, D1.K[K], J1.Pin_2[Pin_2], J2.Pin_2[Pin_2]
+  LED_A       : R1.2, D1.A[A]
+
+PORTS
+  VIN          power/power_in 5.0 V
+  VOUT         power/power_out 3.3 V
+  GND          ground/bidir
+
+LOCAL LINT
+clean

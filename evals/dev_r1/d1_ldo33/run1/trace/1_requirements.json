@@ -1,0 +1,41 @@
+{
+  "reasoning": "",
+  "summary": "5 V to 3.3 V power board with input/output connectors and power indicator LED.",
+  "purpose": "Step down 5 V input to regulated 3.3 V output and provide a green power-indicator LED on the 3.3 V rail.",
+  "supply": "5 V DC",
+  "interfaces": [
+    "2-pin connector: 5 V input",
+    "2-pin connector: 3.3 V output"
+  ],
+  "constraints": [
+    "3.3 V output must be regulated from 5 V input.",
+    "Green power-indicator LED must be connected to the 3.3 V rail with a current-limiting resistor for approximately 2 mA current."
+  ],
+  "required": [
+    {
+      "kind": "connector",
+      "count": 1,
+      "detail": "2-pin connector for 5 V input"
+    },
+    {
+      "kind": "connector",
+      "count": 1,
+      "detail": "2-pin connector for 3.3 V output"
+    },
+    {
+      "kind": "linear_regulator",
+      "count": 1,
+      "detail": "Fixed 3.3 V low-dropout linear regulator"
+    },
+    {
+      "kind": "led",
+      "count": 1,
+      "detail": "Green power-indicator LED on the 3.3 V rail"
+    },
+    {
+      "kind": "support",
+      "count": 1,
+      "detail": "Current-limiting resistor for the green LED (target ~2 mA)"
+    }
+  ]
+}

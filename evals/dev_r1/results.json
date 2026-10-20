@@ -13,7 +13,7 @@
       "error": null,
       "seconds": 287,
       "modules": 1,
-      "human_verdict": null,
+      "human_verdict": false,
       "requirement_kinds": [
         "1xconnector",
         "1xled",
@@ -29,7 +29,37 @@
         "style": "wires (layout variant 0)",
         "connectivity_ok": true,
         "png": "evals/dev_r1/d0_led/run1/schematic/d0_led.png"
-      }
+      },
+      "human_note": "R1 hangs on an invented rail VCC that nothing supplies; the LED is never powered (J1 pin 1 is on VIN alone). Passed all gates; rule E025 added afterwards"
+    },
+    {
+      "id": "d1_ldo33",
+      "run": 1,
+      "status": "ok",
+      "error": null,
+      "seconds": 620,
+      "modules": 1,
+      "human_verdict": true,
+      "requirement_kinds": [
+        "1xconnector",
+        "1xconnector",
+        "1xlinear_regulator",
+        "1xled",
+        "1xsupport"
+      ],
+      "block_rejections": 1,
+      "module_attempts_failed": 0,
+      "handed_over": false,
+      "rules": {
+        "E073": 2,
+        "E205": 1
+      },
+      "drawing": {
+        "style": "wires (layout variant 0)",
+        "connectivity_ok": true,
+        "png": "evals/dev_r1/d1_ldo33/run1/schematic/d1_ldo33.png"
+      },
+      "human_note": "LP38693DT-3.3 with 1 uF in/out (meets the datasheet), LED series 680 ohm = 1.9 mA, both connectors carry GND"
     }
   ]
 }
