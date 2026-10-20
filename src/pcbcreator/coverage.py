@@ -34,11 +34,17 @@ def check_coverage(module: Module, lib: Library, required) -> list[Finding]:
     for item in required:
         if item.kind in ("other", "support"):
             continue
+        import re
+
+        pins = re.search(r"(\d+)[- ]?pin", item.detail.lower())
+        want_pins = int(pins.group(1)) if pins and item.kind == "connector" else None  # "2-pin connector" means 2 pins
         have = sum(1 for inst in module.parts
-                   if (p := lib.get(inst.part)) is not None and _matches(item.kind, p))
+                   if (p := lib.get(inst.part)) is not None and _matches(item.kind, p)
+                   and (want_pins is None or len(p.pins) == want_pins))
         if have < item.count:
             out.append(Finding("E200", "error",
-                               f"requirement not met: needs {item.count} x {item.kind} ({item.detail}), design has {have}",
+                               f"requirement not met: needs {item.count} x {item.kind} ({item.detail}), design has {have}"
+                               + (f" with exactly {want_pins} pins" if want_pins else ""),
                                module.name, "add or replace parts so the design contains what was requested"))
     return out
 

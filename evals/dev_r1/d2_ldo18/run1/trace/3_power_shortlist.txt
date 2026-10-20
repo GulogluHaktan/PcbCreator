@@ -1,41 +1,42 @@
 Regulator_Linear:SPX3819M5-L-1-8 | 500mA Low drop-out regulator, Fixed Output 1.8V, SOT-23-5 REGULATOR LDO 1.8V
 Regulator_Linear:LP38512TJ-1.8 | 1.5A Fast-Transient Response Low-Dropout Linear Voltage Regulator with Error Flag, 1.8V Output, NDQ 
 Regulator_Linear:LD1117V18 | 800 mA Fixed Low Drop Positive Voltage Regulator (LDO). Max input 15V. Fixed Output 1.8V. TO-220-3 l
+Regulator_Linear:LM1117LD-1.8 | 800mA Low-Dropout Linear Regulator, 1.8V fixed output, WSON-8 linear regulator ldo fixed positive
 Regulator_Linear:TPS77818_SO8 | 750mA Fast-Transient Low Dropout Voltage Regulator, Fixed Output 1.8V, SO-8 750mA LDO Regulator Fixe
 Regulator_Linear:LM1117DT-1.8 | 800mA Low-Dropout Linear Regulator, 1.8V fixed output, TO-252 linear regulator ldo fixed positive
 Regulator_Linear:APE8865U4-18-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 1.8V, SC-70-4 300mA LDO Regulator Fixed Positive
-Regulator_Linear:TPS77718_SO8 | 750mA Fast-Transient Low Dropout Voltage Regulator, Fixed Output 1.8V, SO-8 750mA LDO Regulator Fixe
-Regulator_Linear:LM1117LD-1.8 | 800mA Low-Dropout Linear Regulator, 1.8V fixed output, WSON-8 linear regulator ldo fixed positive
-Regulator_Linear:LP2985-1.8 | 150mA 16V Low-noise Low-dropout Regulator With Shutdown, 1.8V output voltage, SOT-23-5 LDO regulator
-Regulator_Linear:TPS77815_SO8 | 750mA Fast-Transient Low Dropout Voltage Regulator, Fixed Output 1.5V, SO-8 750mA LDO Regulator Fixe
-Regulator_Linear:APE8865U5-18-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 1.8V, SC-70-5 300mA LDO Regulator Fixed Positive
 Regulator_Linear:AMS1117CD-1.8 | 1A Low Dropout regulator, positive, 1.8V fixed output, TO-252 linear regulator ldo fixed positive
-Regulator_Linear:LT3080xMS8E | Adjustable 1.1A Single Resistor Low Dropout Regulator, MSOP-8 linear analog linear-technology
+Regulator_Linear:APE8865U5-18-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 1.8V, SC-70-5 300mA LDO Regulator Fixed Positive
+Regulator_Linear:LP2985-1.8 | 150mA 16V Low-noise Low-dropout Regulator With Shutdown, 1.8V output voltage, SOT-23-5 LDO regulator
+Regulator_Linear:TPS77718_SO8 | 750mA Fast-Transient Low Dropout Voltage Regulator, Fixed Output 1.8V, SO-8 750mA LDO Regulator Fixe
 Regulator_Linear:LP38693DT-1.8 | 500-mA Low-Dropout CMOS Linear Regulators Stable With Ceramic Output Capacitors, 1.8V output voltage
-Regulator_Linear:IFX27001TFV18 | 1A Low Dropout Regulator, positive, 1.8V fixed output, TO-252-3 LDO positive voltage industrial
-Regulator_Linear:LT3080xDD | Adjustable 1.1A Single Resistor Low Dropout Regulator, DFN-8 linear analog linear-technology
-Regulator_Linear:APE8865U5-16-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 1.6V, SC-70-5 300mA LDO Regulator Fixed Positive
 Regulator_Linear:LM1117MP-1.8 | 800mA Low-Dropout Linear Regulator, 1.8V fixed output, SOT-223 linear regulator ldo fixed positive
-Regulator_Linear:APE8865U4-12-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 1.2V, SC-70-4 300mA LDO Regulator Fixed Positive
-Regulator_Linear:APE8865Y5-18-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 1.8V, SOT-23-5 300mA LDO Regulator Fixed Positive
-Regulator_Linear:APE8865U4-16-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 1.6V, SC-70-4 300mA LDO Regulator Fixed Positive
+Regulator_Linear:TPS77815_SO8 | 750mA Fast-Transient Low Dropout Voltage Regulator, Fixed Output 1.5V, SO-8 750mA LDO Regulator Fixe
 Regulator_Linear:APE8865NL-18-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 1.8V, SOT-23 300mA LDO Regulator Fixed Positive
-Regulator_Linear:TPS77801_SO8 | 750mA Fast-Transient Low Dropout Voltage Regulator, Adjustable Output 1.2-5.5V, SO-8 750mA LDO Regul
+Regulator_Linear:LT3080xMS8E | Adjustable 1.1A Single Resistor Low Dropout Regulator, MSOP-8 linear analog linear-technology
+Regulator_Linear:APE8865U5-16-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 1.6V, SC-70-5 300mA LDO Regulator Fixed Positive
 Regulator_Linear:APE8865N-18-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 1.8V, SOT-23 300mA LDO Regulator Fixed Positive
-Regulator_Linear:TPS74801AWDRC | Texas Instruments 1.5A, Low-Dropout Linear Regulator With Programmable Soft-Start, 0.8-6.0Vin, 2.7-6
-Regulator_Linear:APE8865NR-18-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 1.8V, SOT-23 300mA LDO Regulator Fixed Positive
-Regulator_Linear:TPS74801DRC | Texas Instruments 1.5A, Low-Dropout Linear Regulator With Programmable Soft-Start, 0.8-5.5Vin, 2.7-6
-Regulator_Linear:AMS1117-1.8 | 1A Low Dropout regulator, positive, 1.8V fixed output, SOT-223 linear regulator ldo fixed positive
-Regulator_Linear:TPS77825_SO8 | 750mA Fast-Transient Low Dropout Voltage Regulator, Fixed Output 2.5V, SO-8 750mA LDO Regulator Fixe
-Regulator_Linear:AZ1117CH2-1.8 | 1A Fixed 1.8V LDO Linear Regulator, 15V Max Input, SOT-223 low-dropout positive
-Regulator_Linear:APE8865U5-12-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 1.2V, SC-70-5 300mA LDO Regulator Fixed Positive
-Regulator_Linear:TPS77715_SO8 | 750mA Fast-Transient Low Dropout Voltage Regulator, Fixed Output 1.5V, SO-8 750mA LDO Regulator Fixe
-Regulator_Linear:APE8865U4-15-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 1.5V, SC-70-4 300mA LDO Regulator Fixed Positive
-Regulator_Linear:LD39150DT18 | 1.5A Ultra Low Dropout regulator, positive, 1.8V fixed output, TO-252 linear regulator ldo fixed pos
-Regulator_Linear:TPS76318 | Low power 150mA LDO 1.8V fixed output voltage, SOT-23-5 linear low dropout Regulator fixed
-Regulator_Linear:LP38512TS-1.8 | 1.5A Fast-Transient Response Low-Dropout Linear Voltage Regulator with Error Flag, 1.8V Output, TO-2
 Regulator_Linear:LP38693SD-1.8 | 500-mA Low-Dropout CMOS Linear Regulators Stable With Ceramic Output Capacitors, 1.8V output voltage
-Regulator_Linear:NCP1117-1.8_SOT223 | 1A Low drop-out regulator, Fixed Output 1.8V, SOT-223 REGULATOR LDO 1.8V
-Regulator_Linear:TPS77701_SO8 | 750mA Fast-Transient Low Dropout Voltage Regulator, Adjustable Output 1.5-5.5V, SO-8 750mA LDO Regul
-Regulator_Linear:LD1117V50 | 800 mA Fixed Low Drop Positive Voltage Regulator (ldo). Max input 15V. Fixed Output 5.0V. TO-220-3 l
+Regulator_Linear:AMS1117-1.8 | 1A Low Dropout regulator, positive, 1.8V fixed output, SOT-223 linear regulator ldo fixed positive
+Regulator_Linear:APE8865U4-12-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 1.2V, SC-70-4 300mA LDO Regulator Fixed Positive
+Regulator_Linear:LT3080xDD | Adjustable 1.1A Single Resistor Low Dropout Regulator, DFN-8 linear analog linear-technology
+Regulator_Linear:APE8865U4-16-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 1.6V, SC-70-4 300mA LDO Regulator Fixed Positive
+Regulator_Linear:IFX27001TFV18 | 1A Low Dropout Regulator, positive, 1.8V fixed output, TO-252-3 LDO positive voltage industrial
+Regulator_Linear:LD39150DT18 | 1.5A Ultra Low Dropout regulator, positive, 1.8V fixed output, TO-252 linear regulator ldo fixed pos
+Regulator_Linear:APE8865NR-18-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 1.8V, SOT-23 300mA LDO Regulator Fixed Positive
+Regulator_Linear:APE8865U5-12-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 1.2V, SC-70-5 300mA LDO Regulator Fixed Positive
+Regulator_Linear:APE8865Y5-18-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 1.8V, SOT-23-5 300mA LDO Regulator Fixed Positive
+Regulator_Linear:TPS76318 | Low power 150mA LDO 1.8V fixed output voltage, SOT-23-5 linear low dropout Regulator fixed
+Regulator_Linear:APE8865U4-15-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 1.5V, SC-70-4 300mA LDO Regulator Fixed Positive
+Regulator_Linear:LF18_TO220 | Low-drop Voltage Regulator, Io up to 500mA, Fixed Vo 1.8V, TO-220 LDO regulator voltage
+Regulator_Linear:TPS77825_SO8 | 750mA Fast-Transient Low Dropout Voltage Regulator, Fixed Output 2.5V, SO-8 750mA LDO Regulator Fixe
 Regulator_Linear:APE8865N-12-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 1.2V, SOT-23 300mA LDO Regulator Fixed Positive
+Regulator_Linear:TPS77715_SO8 | 750mA Fast-Transient Low Dropout Voltage Regulator, Fixed Output 1.5V, SO-8 750mA LDO Regulator Fixe
+Regulator_Linear:APE8865N-15-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 1.5V, SOT-23 300mA LDO Regulator Fixed Positive
+Regulator_Linear:TPS77801_SO8 | 750mA Fast-Transient Low Dropout Voltage Regulator, Adjustable Output 1.2-5.5V, SO-8 750mA LDO Regul
+Regulator_Linear:LP38512TS-1.8 | 1.5A Fast-Transient Response Low-Dropout Linear Voltage Regulator with Error Flag, 1.8V Output, TO-2
+Regulator_Linear:LP38691SD-1.8 | 500-mA Low-Dropout CMOS Linear Regulators Stable With Ceramic Output Capacitors, 1.8V output voltage
+Regulator_Linear:AZ1117CH2-1.8 | 1A Fixed 1.8V LDO Linear Regulator, 15V Max Input, SOT-223 low-dropout positive
+Regulator_Linear:LP38693MP-1.8 | 500-mA Low-Dropout CMOS Linear Regulators Stable With Ceramic Output Capacitors, 1.8V output voltage
+Regulator_Linear:APE8865U5-15-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 1.5V, SC-70-5 300mA LDO Regulator Fixed Positive
+Regulator_Linear:APE8865N-16-HF-3 | 300mA Low Dropout Voltage Regulator, Fixed Output 1.6V, SOT-23 300mA LDO Regulator Fixed Positive

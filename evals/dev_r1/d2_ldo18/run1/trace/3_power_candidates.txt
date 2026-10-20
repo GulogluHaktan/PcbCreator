@@ -5,6 +5,10 @@ Connector_Generic:Conn_01x02 [connector] Generic connector, single row, 01x02, s
 Connector_Generic:Conn_01x03 [connector] Generic connector, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/) connector | footprint Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical | pins: 1:Pin_1(passive), 2:Pin_2(passive), 3:Pin_3(passive)
 Connector_Generic:Conn_01x04 [connector] Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/) connector | footprint Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical | pins: 1:Pin_1(passive), 2:Pin_2(passive), 3:Pin_3(passive), 4:Pin_4(passive)
 Regulator_Linear:SPX3819M5-L-1-8 [ic] 500mA Low drop-out regulator, Fixed Output 1.8V, SOT-23-5 REGULATOR LDO 1.8V | footprint Package_TO_SOT_SMD:SOT-23-5 | pins: 1:IN(power_in), 2:GND(ground), 3:EN(input), 4:BP(input), 5:OUT(power_out)
+Regulator_Linear:LP38512TJ-1.8 [ic] 1.5A Fast-Transient Response Low-Dropout Linear Voltage Regulator with Error Flag, 1.8V Output, NDQ LDO Linear Regulator | footprint Package_TO_SOT_SMD:Texas_NDQ | pins: 1:EN(input), 2:IN(power_in), 3:GND(ground), 4:OUT(power_out), 5:~{ERROR}(open_drain), 6:GND(passive)
+Regulator_Linear:LD1117V18 [ic] 800 mA Fixed Low Drop Positive Voltage Regulator (LDO). Max input 15V. Fixed Output 1.8V. TO-220-3 low-dropout-regulator ldo | footprint Package_TO_SOT_THT:TO-220-3_Vertical | pins: 1:GND(ground), 2:VO(power_out), 3:VI(power_in)
 
 CARDS
 Regulator_Linear:SPX3819M5-L-1-8: no datasheet card (datasheet unreachable); rely on the pin list and be conservative
+Regulator_Linear:LP38512TJ-1.8: Linear Regulator | Cin >= 10.0 uF | Cout >= 10.0 uF | pins: Enable. Pull high to enable the output, low to disable the output. This pin has no internal bias and must be tied to the input voltage, or actively driven.; Input Supply Pin; Ground; Regulated Output Voltage Pin; ERROR Flag. A high level indicates that VOUT is within typically 15% (VOUT falling) of the nominal regulated voltage.  [unconfirmed]
+Regulator_Linear:LD1117V18: no datasheet card (datasheet unreachable); rely on the pin list and be conservative

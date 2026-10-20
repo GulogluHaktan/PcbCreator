@@ -1,0 +1,30 @@
+{
+  "id": "d2_ldo18",
+  "run": 1,
+  "status": "ok",
+  "error": null,
+  "seconds": 1290,
+  "modules": 1,
+  "human_verdict": false,
+  "requirement_kinds": [
+    "2xconnector",
+    "1xlinear_regulator",
+    "1xled",
+    "1xsupport"
+  ],
+  "block_rejections": 5,
+  "module_attempts_failed": 2,
+  "handed_over": false,
+  "rules": {
+    "E073": 2,
+    "E010": 2,
+    "E053": 3,
+    "R001": 2
+  },
+  "drawing": {
+    "style": "wires (layout variant 1)",
+    "connectivity_ok": true,
+    "png": "evals/dev_r1/d2_ldo18/run1/schematic/d2_ldo18.png"
+  },
+  "human_note": "both connectors are 3-pin with VIN+VOUT+GND (request: two 2-pin); BP (bypass) pin tied straight to GND; LED on the 3.3 V input instead of the 1.8 V rail. Passed every gate"
+}

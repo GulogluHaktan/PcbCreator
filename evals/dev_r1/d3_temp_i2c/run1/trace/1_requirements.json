@@ -1,0 +1,37 @@
+{
+  "reasoning": "",
+  "summary": "Temperature sensor breakout board powered from 3.3 V via a 4-pin header, featuring one digital I2C temperature sensor with required pull-up resistors and supply decoupling.",
+  "purpose": "Provide a compact breakout for a digital I2C temperature sensor, interfacing to a 3.3 V logic system via a 4-pin header.",
+  "supply": "3.3 V",
+  "interfaces": [
+    "I2C (SDA, SCL)"
+  ],
+  "constraints": [
+    "Powered from 3.3 V",
+    "I2C communication via SDA and SCL lines",
+    "Requires pull-up resistors for I2C lines",
+    "Requires supply decoupling for the sensor"
+  ],
+  "required": [
+    {
+      "kind": "connector",
+      "count": 1,
+      "detail": "4-pin header (pins: 3V3, GND, SDA, SCL)"
+    },
+    {
+      "kind": "sensor",
+      "count": 1,
+      "detail": "Digital I2C temperature sensor"
+    },
+    {
+      "kind": "support",
+      "count": 2,
+      "detail": "I2C pull-up resistors (one for SDA, one for SCL)"
+    },
+    {
+      "kind": "support",
+      "count": 1,
+      "detail": "Supply decoupling capacitor (for the sensor's VCC pin)"
+    }
+  ]
+}

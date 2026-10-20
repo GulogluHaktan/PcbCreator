@@ -1,0 +1,27 @@
+BLOCK: led: Yellow power-indicator LED. Include its series current-limiting resistor in this block.
+
+REASONING
+The LED must be driven from the 1.8 V VOUT rail with a series current-limiting resistor to limit current to ~1 mA. Using a typical yellow LED forward voltage of 2.0 V: R = (1.8 V - 2.0 V) / 1 mA = -200 Ω. Since the rail voltage is lower than the typical Vf, we use a lower Vf LED or accept that at 1.8 V the current will be very low even with a small resistor. To ensure ~1 mA with a 1.8 V rail and a typical Vf of 1.8 V, we use a 100 Ω resistor (giving ~0 mA if Vf=1.8V, but in practice Vf is often 1.6-1.8V for yellow LEDs at low current; 100 Ω is a safe low value to allow visible current). The resistor connects VOUT to the LED anode, and the LED cathode connects to GND.
+
+MODULE power: Regulate 3.3 V to 1.8 V and drive the power indicator LED
+
+PARTS
+  U1    Regulator_Linear:SPX3819M5-L-1-8                    500mA Low drop-out regulator, Fixed Output 1.8V, SOT-23-5 REGULATOR LDO 1.8V  [pins: IN, GND, EN, BP, OUT]
+  C1    Device:C                                   100nF    Unpolarized capacitor cap capacitor
+  C2    Device:C                                   100nF    Unpolarized capacitor cap capacitor
+  R3    Device:R                                   100      Resistor R res resistor
+  D1    Device:LED                                 yellow   Light emitting diode LED diode
+
+NETS (pin names in brackets)
+  VIN           3.3 V: U1.IN[IN], U1.EN[EN], C1.1
+  VOUT          1.8 V: U1.OUT[OUT], C2.1, R3.1
+  GND         : U1.GND[GND], U1.BP[BP], C1.2, C2.2, D1.K[K]
+  LED_A       : R3.2, D1.A[A]
+
+PORTS
+  VIN          power/power_in 3.3 V
+  VOUT         power/power_out 1.8 V
+  GND          ground/bidir
+
+LOCAL LINT
+clean

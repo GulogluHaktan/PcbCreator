@@ -1,0 +1,28 @@
+BLOCK: connector (1 of 2): 2-pin connector (one for 3.3 V input, one for 1.8 V output).
+
+REASONING
+The block to add is a 2-pin connector for the power interface: one pin for the 3.3 V input (VIN) and one pin for the 1.8 V output (VOUT). This connector is labeled J1. Pin 1 of the connector is connected to the VIN net, and Pin 2 is connected to the VOUT net. This completes the external interface for the power module.
+
+MODULE power: Regulate 3.3 V to 1.8 V and drive the power indicator LED
+
+PARTS
+  U1    Regulator_Linear:SPX3819M5-L-1-8                    500mA Low drop-out regulator, Fixed Output 1.8V, SOT-23-5 REGULATOR LDO 1.8V  [pins: IN, GND, EN, BP, OUT]
+  C1    Device:C                                   100nF    Unpolarized capacitor cap capacitor
+  C2    Device:C                                   100nF    Unpolarized capacitor cap capacitor
+  R3    Device:R                                   100      Resistor R res resistor
+  D1    Device:LED                                 yellow   Light emitting diode LED diode
+  J1    Connector_Generic:Conn_01x02                        Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen
+
+NETS (pin names in brackets)
+  VIN           3.3 V: U1.IN[IN], U1.EN[EN], C1.1, J1.Pin_1[Pin_1]
+  VOUT          1.8 V: U1.OUT[OUT], C2.1, R3.1, J1.Pin_2[Pin_2]
+  GND         : U1.GND[GND], U1.BP[BP], C1.2, C2.2, D1.K[K]
+  LED_A       : R3.2, D1.A[A]
+
+PORTS
+  VIN          power/power_in 3.3 V
+  VOUT         power/power_out 1.8 V
+  GND          ground/bidir
+
+LOCAL LINT
+ERROR   E053 [J1] connector J1 carries VIN, VOUT but has no ground pin  hint: connect one pin of the connector to GND as the return path

@@ -22,7 +22,7 @@ from .lint import Finding, lint
 from .models import Instance, Module, Net, Port
 
 # rule families that are meaningful on a partially built module
-LOCAL_RULES = {"E001", "E002", "E003", "E004", "E005", "E010", "E030", "E032", "E051", "E053", "E054", "E060", "E061"}
+LOCAL_RULES = {"E001", "E002", "E003", "E004", "E005", "E010", "E030", "E032", "E051", "E053", "E054", "E055", "E060", "E061"}
 
 KIND_ORDER = {"linear_regulator": 0, "switching_regulator": 0, "mcu": 0, "sensor": 1, "led": 2, "connector": 3,
               "support": 8, "other": 9}

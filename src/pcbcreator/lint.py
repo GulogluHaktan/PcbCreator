@@ -8,6 +8,7 @@ Rules are plain functions registered with @rule; each takes a Ctx and yields Fin
 
 from __future__ import annotations
 
+import re
 from collections import defaultdict
 from dataclasses import dataclass, field
 from typing import Callable, Iterable, Literal
@@ -237,6 +238,23 @@ def power_nets(ctx: Ctx) -> Iterable[Finding]:
                  (pin.supply_max is not None and rv > pin.supply_max):
                 yield _f("E021", "error", f"{ref}.{pin.name} supply range {pin.supply_min}-{pin.supply_max} V "
                          f"but net {net} is {rv} V", f"{ref}.{pin.name}")
+
+
+_BYPASS_PIN = re.compile(r"^(BP|BYP|BYPASS|NR|CBYP|CBP|NOISE_?RED\w*)$", re.I)
+
+
+@rule
+def bypass_pin_not_shorted(ctx: Ctx) -> Iterable[Finding]:
+    """Bypass / noise-reduction pins of regulators go through a small capacitor to ground, or stay open. Tied straight
+    to ground or a rail they short an internal reference node (found: a model wired BP of an LDO to GND)."""
+    for net, nodes in ctx.net_pins.items():
+        directly_fixed = is_ground_net(net) or ctx.rail_voltage(net) is not None or ctx.is_powered(net)
+        if not directly_fixed:
+            continue
+        for ref, pin in nodes:
+            if _BYPASS_PIN.match(pin.name or ""):
+                yield _f("E055", "error", f"bypass pin {ref}.{pin.name} is tied directly to {net}", f"{ref}.{pin.name}",
+                         "connect it through a small capacitor to GND (see the datasheet) or leave it unconnected")
 
 
 @rule
